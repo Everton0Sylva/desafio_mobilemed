@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Paciente {
+  id          String  @id @default(uuid())
+  nome        String
+  documento   String  @unique
+  telefone    String?
+  celular     String?
+  whatsapp    Boolean @default(false)
+  status      Boolean @default(true)
+}
