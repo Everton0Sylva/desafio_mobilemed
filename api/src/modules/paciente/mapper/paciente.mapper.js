@@ -66,6 +66,12 @@ export class PacienteMapper {
       cidade: data.cidade,
 
       uf: data.uf,
+
+      createdAt:
+        data.createdAt,
+
+      updatedAt:
+        data.updatedAt
     };
   }
 }
