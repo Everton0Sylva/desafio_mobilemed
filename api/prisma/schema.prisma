@@ -1,17 +1,41 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
 model Paciente {
-  id          String  @id @default(uuid())
-  nome        String
-  documento   String  @unique
-  telefone    String?
-  celular     String?
-  whatsapp    Boolean @default(false)
-  status      Boolean @default(true)
+
+  id              String   @id @default(uuid())
+  nome            String
+  documento       String   @unique
+  telefone        String
+  celular         String
+  foto            String?
+  biometria       String?
+  tipoSanguineo   TipoSanguineo
+  whatsapp        Boolean
+  status          Boolean
+  cep             String
+  logradouro      String?
+  numero          String?
+  bairro          String?
+  complemento     String?
+  cidade          String
+  uf              String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum TipoSanguineo {
+  AP    //  A_POSITIVO
+  AN    //  A_NEGATIVO
+  BP    // B_POSITIVO
+  BN    //B_NEGATIVO
+  ABP   // AB_POSITIVO
+  ABN   //  AB_NEGATIVO
+  OP    //  O_POSITIVO
+  ON  //  O_NEGATIVO
 }

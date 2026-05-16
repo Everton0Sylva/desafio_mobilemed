@@ -47,4 +47,14 @@ export class PacienteRepository {
     }
   });
 }
+
+async buscarPorId(id) {
+
+  return prisma.paciente.findUnique({
+
+    where: {
+      id
+    }
+  });
+}
 }

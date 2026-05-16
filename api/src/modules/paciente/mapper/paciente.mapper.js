@@ -1,34 +1,71 @@
 export class PacienteMapper {
-
   static toPersistence(data) {
-
     return {
       nome: data.nome,
+
       documento: data.documento,
+
       telefone: data.telefone,
+
       celular: data.celular,
+
       foto: data.foto,
-      biometria: data.biometria,
+
+      biometria: null,
+
       tipoSanguineo: data.tipoSanguineo,
-      whatsapp: data.whatsapp,
-      status: data.status,
-      idEndereco: data.idEndereco
+
+      whatsapp: false,
+
+      status: true,
+
+      cep: data.cep,
+
+      logradouro: data.logradouro,
+
+      numero: data.numero,
+
+      bairro: data.bairro,
+
+      complemento: data.complemento,
+
+      cidade: data.cidade,
+
+      uf: data.uf,
     };
   }
 
   static toResponse(data) {
-
     return {
       id: data.id,
+
       nome: data.nome,
+
       documento: data.documento,
+
       telefone: data.telefone,
+
       celular: data.celular,
+
       tipoSanguineo: data.tipoSanguineo,
+
       whatsapp: data.whatsapp,
+
       status: data.status,
-      endereco: data.endereco,
-      createdAt: data.createdAt
+
+      cep: data.cep,
+
+      logradouro: data.logradouro,
+
+      numero: data.numero,
+
+      bairro: data.bairro,
+
+      complemento: data.complemento,
+
+      cidade: data.cidade,
+
+      uf: data.uf,
     };
   }
 }

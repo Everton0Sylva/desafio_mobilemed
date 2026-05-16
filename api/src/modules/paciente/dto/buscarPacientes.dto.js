@@ -16,11 +16,12 @@ export const buscarPacientesDto = z.object({
 
   page: z
     .string()
-    .optional()
+    .min(1)
     .default('1'),
 
-  limit: z
-    .string()
-    .optional()
-    .default('10')
+  pageSize: z
+    .coerce.number()
+    .min(1)
+    .max(20)
+    .default(10)
 });

@@ -6,7 +6,7 @@ import { BuscarPacientesService }
 
 export class BuscarPacientesController {
 
-  async execute(req, res) {
+  async handle(req, res) {
 
     try {
 

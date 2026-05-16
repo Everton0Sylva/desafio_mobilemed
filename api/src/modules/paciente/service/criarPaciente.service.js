@@ -1,4 +1,5 @@
 import { PacienteRepository } from "../repository/paciente.repository.js";
+import { PacienteMapper } from "../mapper/paciente.mapper.js";
 
 export class CriarPacienteService {
   async execute(data) {

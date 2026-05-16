@@ -1,73 +1,23 @@
 import { Router } from "express";
-import { PacienteController } from "../controller/paciente.controller.js";
 
+import { BuscarPacientePorIdController } from "../controller/buscarPacientePorId.controller.js";
 import { BuscarPacientesController } from "../controller/buscarPacientes.controller.js";
+import { CriarPacienteController } from "../controller/criarPaciente.controller.js";
 
 const router = Router();
-const controller = new PacienteController();
+const controller = new CriarPacienteController();
 
-const buscarController = new BuscarPacientesController();
+const buscarPacientesController = new BuscarPacientesController();
+const criarPacienteController = new CriarPacienteController();
 
-router.post("/", (req, res) => controller.criar(req, res));
+const buscarPacientePorIdController = new BuscarPacientePorIdController();
 
-router.get("/", (req, res) => buscarController.execute(req, res));
+router.post("/", (req, res) => criarPacienteController.handle(req, res));
 
-/**
- * @swagger
- * /pacientes:
- *   post:
- *     summary: Cria um novo paciente
- *     tags:
- *       - Pacientes
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               documento:
- *                 type: string
- *               telefone:
- *                 type: string
- *               celular:
- *                 type: string
- *     responses:
- *       201:
- *         description: Paciente criado com sucesso
- * 
- * 
- *   get:
- *     summary: Pesquisa pacientes
- *     tags:
- *       - Pacientes
- *     parameters:
- *       - in: query
- *         name: nome
- *         schema:
- *           type: string
- *       - in: query
- *         name: documento
- *         schema:
- *           type: string
- *       - in: query
- *         name: status
- *         schema:
- *           type: boolean
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Lista de pacientes
- 
- */
+router.get("/", (req, res) => buscarPacientesController.handle(req, res));
+
+router.get("/:id", (req, res) =>
+  buscarPacientePorIdController.handle(req, res),
+);
 
 export default router;

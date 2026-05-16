@@ -1,9 +1,8 @@
 import { CriarPacienteService } from "../service/criarPaciente.service.js";
-import { criarPacienteDto }
-  from '../dto/criarPaciente.dto.js';
+import { criarPacienteDto } from "../dto/criarPaciente.dto.js";
 
-export class PacienteController {
-  async criar(req, res) {
+export class CriarPacienteController {
+  async handle(req, res) {
     try {
       const data = criarPacienteDto.parse(req.body);
 
@@ -13,8 +12,8 @@ export class PacienteController {
 
       return res.status(201).json(result);
     } catch (error) {
-      return res.status(400).json({
-        erro: error.message,
+      return res.status(error.status || 500).json({
+        erro: error.message || "Erro interno",
       });
     }
   }
