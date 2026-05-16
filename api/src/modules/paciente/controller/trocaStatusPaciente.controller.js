@@ -1,10 +1,14 @@
-import { atualizarPacienteDto }
-from '../dto/atualizarPaciente.dto.js';
+import {
+  trocaStatusPacienteDto
+}
+from '../dto/trocaStatusPaciente.dto.js';
 
-import { AtualizarPacienteService }
-from '../service/atualizarPaciente.service.js';
+import {
+  TrocaStatusPacienteService
+}
+from '../service/trocaStatusPaciente.service.js';
 
-export class AtualizarPacienteController {
+export class TrocaStatusPacienteController {
 
   async handle(req, res) {
 
@@ -14,7 +18,7 @@ export class AtualizarPacienteController {
         req.params;
 
       const validation =
-        atualizarPacienteDto
+       trocaStatusPacienteDto
           .safeParse(req.body);
 
       if (!validation.success) {
@@ -27,12 +31,14 @@ export class AtualizarPacienteController {
       }
 
       const service =
-        new AtualizarPacienteService();
+        new TrocaStatusPacienteService();
 
       const result =
         await service.execute(
+
           id,
-          validation.data
+
+          validation.data.status
         );
 
       return res.status(200).json(
@@ -46,9 +52,8 @@ export class AtualizarPacienteController {
       ).json({
 
         erro:
-          error.message ||
-          'Erro interno'
-      });
+          error.message
+        });
     }
   }
 }

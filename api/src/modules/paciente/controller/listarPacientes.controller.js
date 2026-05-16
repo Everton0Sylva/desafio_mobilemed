@@ -1,21 +1,22 @@
-import { atualizarPacienteDto }
-from '../dto/atualizarPaciente.dto.js';
+import {
+  listarPacientesDto
+}
+from '../dto/listarPacientes.dto.js';
 
-import { AtualizarPacienteService }
-from '../service/atualizarPaciente.service.js';
+import {
+  ListarPacientesService
+}
+from '../service/listarPacientes.service.js';
 
-export class AtualizarPacienteController {
+export class ListarPacientesController {
 
   async handle(req, res) {
 
     try {
 
-      const { id } =
-        req.params;
-
       const validation =
-        atualizarPacienteDto
-          .safeParse(req.body);
+        listarPacientesDto
+          .safeParse(req.query);
 
       if (!validation.success) {
 
@@ -27,11 +28,10 @@ export class AtualizarPacienteController {
       }
 
       const service =
-        new AtualizarPacienteService();
+        new ListarPacientesService();
 
       const result =
         await service.execute(
-          id,
           validation.data
         );
 
@@ -46,9 +46,8 @@ export class AtualizarPacienteController {
       ).json({
 
         erro:
-          error.message ||
-          'Erro interno'
-      });
+          error.message
+        });
     }
   }
 }

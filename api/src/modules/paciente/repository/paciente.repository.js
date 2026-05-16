@@ -1,59 +1,130 @@
-import { prisma } from '../../../shared/database/prisma.js';
+import { prisma } from "../../../shared/database/prisma.js";
 
 export class PacienteRepository {
-  async buscarPorDocumento(documento) {
-    return prisma.paciente.findUnique({
-      where: {
-        documento
-      }
-    });
-  }
-
   async criar(data) {
     return prisma.paciente.create({
-      data
+      data,
     });
   }
-  
+
   async buscar(filters) {
 
-  const page = Number(filters.page || 1);
-  const limit = Number(filters.limit || 10);
+  const {
+    nome,
+    documento
+  } = filters;
 
-  const skip = (page - 1) * limit;
+  const where = {
 
-  const where = {};
+    status: true
+  };
 
-  if (filters.nome) {
+  if (nome) {
+
     where.nome = {
-      contains: filters.nome
+
+      contains: nome
     };
   }
 
-  if (filters.documento) {
-    where.documento = filters.documento;
-  }
+  if (documento) {
 
-  if (filters.status !== undefined) {
-    where.status = filters.status === 'true';
+    where.documento =
+      documento;
   }
 
   return prisma.paciente.findMany({
+
     where,
-    skip,
-    take: limit,
+
     orderBy: {
+
       nome: 'asc'
     }
   });
 }
+async listar(filters) {
 
-async buscarPorId(id) {
+  const {
+    page,
+    pageSize
+  } = filters;
 
-  return prisma.paciente.findUnique({
+  const where = {
+
+    status: true
+  };
+
+  const pacientes =
+    await prisma.paciente.findMany({
+
+      where,
+
+      skip:
+        (page - 1) * pageSize,
+
+      take:
+        pageSize,
+
+      orderBy: {
+
+        nome: 'asc'
+      }
+    });
+
+  const total =
+    await prisma.paciente.count({
+      where
+    });
+
+  return {
+
+    data: pacientes,
+
+    total,
+
+    page,
+
+    pageSize,
+
+    totalPages:
+      Math.ceil(
+        total / pageSize
+      )
+  };
+}
+
+  async buscarPorId(id) {
+    return prisma.paciente.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async atualizar(id, data) {
+    return prisma.paciente.update({
+      where: {
+        id,
+      },
+
+      data,
+    });
+  }
+
+  async trocarStatus(
+  id,
+  status
+) {
+
+  return prisma.paciente.update({
 
     where: {
       id
+    },
+
+    data: {
+      status
     }
   });
 }

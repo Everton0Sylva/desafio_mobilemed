@@ -1,14 +1,14 @@
 import { PacienteRepository }
 from '../repository/paciente.repository.js';
 
-export class BuscarPacientesService {
+export class ListarPacientesService {
 
   async execute(filters) {
 
     const repository =
       new PacienteRepository();
 
-    return repository.buscar(
+    return repository.listar(
       filters
     );
   }

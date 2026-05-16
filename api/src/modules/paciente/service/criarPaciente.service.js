@@ -5,9 +5,7 @@ export class CriarPacienteService {
   async execute(data) {
     const repository = new PacienteRepository();
 
-    const pacienteExistente = await repository.buscarPorDocumento(
-      data.documento,
-    );
+    const pacienteExistente = await repository.buscar(data.documento);
 
     if (pacienteExistente) {
       throw new Error("CPF já cadastrado");

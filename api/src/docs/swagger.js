@@ -5,8 +5,86 @@ import {
 
 import { criarPacienteDto } from "../modules/paciente/dto/criarPaciente.dto.js";
 import { buscarPacientesDto } from "../modules/paciente/dto/buscarPacientes.dto.js";
+import { buscarPacientePorIdDto } from "../modules/paciente/dto/buscarPacientePorId.dto.js";
+import { atualizarPacienteDto } from "../modules/paciente/dto/atualizarPaciente.dto.js";
+import { listarPacientesDto } from "../modules/paciente/dto/listarPacientes.dto.js";
+import { trocaStatusPacienteDto } from "../modules/paciente/dto/trocaStatusPaciente.dto.js";
 
 const registry = new OpenAPIRegistry();
+
+registry.registerPath({
+  method: "put",
+
+  path: "/pacientes/{id}",
+
+  tags: ["Pacientes"],
+
+  summary: "Atualizar paciente",
+
+  request: {
+    params: buscarPacientePorIdDto,
+
+    body: {
+      required: true,
+
+      content: {
+        "application/json": {
+          schema: atualizarPacienteDto,
+        },
+      },
+    },
+  },
+
+  responses: {
+    200: {
+      description: "Paciente atualizado",
+    },
+
+    404: {
+      description: "Paciente não encontrado",
+    },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+
+  path: "/pacientes?page=x&pageSize=y",
+
+  tags: ["Pacientes"],
+
+  summary: "Listar pacientes paginado",
+
+  request: {
+    query: listarPacientesDto,
+  },
+
+  responses: {
+    200: {
+      description: "Lista paginada de pacientes",
+    },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+
+  path: "/pacientes?documento=12345678900",
+
+  tags: ["Pacientes"],
+
+  summary: "Buscar pacientes por nome ou documento",
+
+  request: {
+    query: buscarPacientesDto,
+  },
+
+  responses: {
+    200: {
+      description: "Pacientes encontrados",
+    },
+  },
+});
 
 registry.register("CriarPacienteDto", criarPacienteDto);
 
@@ -39,49 +117,50 @@ registry.registerPath({
 });
 
 registry.registerPath({
-  method: "get",
 
-  path: "/pacientes?page=x&pageSize=y",
+  method: 'patch',
 
-  tags: ["Pacientes"],
+  path: '/pacientes/{id}',
 
-  summary: "Buscar pacientes paginado",
+  tags: ['Pacientes'],
+
+  summary:
+    'Alterar status do paciente',
 
   request: {
-    query: buscarPacientesDto,
+
+    params:
+      buscarPacientePorIdDto,
+
+    body: {
+
+      required: true,
+
+      content: {
+
+        'application/json': {
+
+          schema:
+            trocaStatusPacienteDto
+        }
+      }
+    }
   },
 
   responses: {
+
     200: {
-      description: "Lista de pacientes",
-    },
-  },
-});
 
-registry.registerPath({
-  method: "get",
-
-  path: "/pacientes/{id}",
-
-  tags: ["Pacientes"],
-
-  summary: "Buscar paciente por ID",
-
-  request: {
-    params: criarPacienteDto.pick({
-      id: true,
-    }),
-  },
-
-  responses: {
-    200: {
-      description: "Paciente encontrado",
+      description:
+        'Status alterado com sucesso'
     },
 
     404: {
-      description: "Paciente não encontrado",
-    },
-  },
+
+      description:
+        'Paciente não encontrado'
+    }
+  }
 });
 
 const generator = new OpenApiGeneratorV3(registry.definitions);

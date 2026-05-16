@@ -15,20 +15,6 @@ export const criarPacienteDto = z.object({
   telefone: z.string().openapi({
     example: "1933333333",
   }),
-  /*
-  "celular": "19999999999",
-  "foto": null,
-  "biometria": null,
-  "tipoSanguineo": "O_POSITIVO",
-  "whatsapp": true,
-  "status": true,
-  "logradouro": "Rua Conceição",
-  "numero": "11",
-  "bairro": "centro",
-  "complemento": "",
-  "cidade": "São Paulo",
-  "uf": "SP"
-}**/
 
   celular: z.string().openapi({
     example: "19999876543",
