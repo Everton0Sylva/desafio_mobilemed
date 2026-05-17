@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const alterarProcedimentoDto =
+export const atualizarProcedimentoDto =
   z.object({
 
     sigla:

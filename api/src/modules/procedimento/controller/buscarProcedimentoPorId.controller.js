@@ -10,46 +10,24 @@ from '../service/buscarProcedimentoPorId.service.js';
 
 export class BuscarProcedimentoPorIdController {
 
-  async handle(req, res) {
+  async handle(
+    req,
+    res
+  ) {
 
-    try {
+    const { id } =
+      req.params;
 
-      const validation =
-        buscarProcedimentoPorIdDto.safeParse({
+    const service =
 
-          id: req.params.id
-        });
+      new BuscarProcedimentoPorIdService();
 
-      if (!validation.success) {
+    const response =
 
-        return res.status(400).json({
+      await service.execute(id);
 
-          erro:
-            validation.error.errors
-        });
-      }
-
-      const service =
-        new BuscarProcedimentoPorIdService();
-
-      const result =
-        await service.execute(
-          validation.data.id
-        );
-
-      return res.status(200).json(
-        result
-      );
-
-    } catch (error) {
-
-      return res.status(
-        error.status || 500
-      ).json({
-
-        erro:
-          error.message
-      });
-    }
+    return res.json(
+      response
+    );
   }
 }

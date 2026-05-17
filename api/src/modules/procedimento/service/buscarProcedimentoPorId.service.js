@@ -5,10 +5,12 @@ import { ProcedimentoRepository } from "../repository/procedimento.repository.js
 import { ProcedimentoMapper } from "../mapper/procedimento.mapper.js";
 
 export class BuscarProcedimentoPorIdService {
+
   async execute(id) {
     const repository = new ProcedimentoRepository();
 
     const procedimento = await repository.buscarPorId(id);
+    
 
     if (!procedimento) {
       throw {
@@ -18,14 +20,7 @@ export class BuscarProcedimentoPorIdService {
       };
     }
 
-    const especialidade = EspecialidadeService.buscarPorCbo(
-      procedimento.cboEspecialidade,
-    );
-
-    return ProcedimentoMapper.toResponse(
-      procedimento,
-
-      especialidade,
-    );
+    return ProcedimentoMapper.toResponse(procedimento);
   }
 }
+

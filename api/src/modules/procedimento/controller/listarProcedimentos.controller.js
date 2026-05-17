@@ -1,57 +1,27 @@
-import {
-  listarProcedimentosDto
-}
-from '../dto/listarProcedimentos.dto.js';
+import { listarProcedimentosDto } from "../dto/listarProcedimentos.dto.js";
 
-import {
-  ListarProcedimentosService
-}
-from '../service/listarProcedimentos.service.js';
+import { ListarProcedimentosService } from "../service/listarProcedimentos.service.js";
 
 export class ListarProcedimentosController {
-
   async handle(req, res) {
+    const dto = listarProcedimentosDto.parse({
+      page: req.query.page,
 
-    try {
+      pageSize: req.query.pageSize,
 
-      const validation =
-        listarProcedimentosDto.safeParse(
-          req.query
-        );
+      cboEspecialidade: req.query.cboEspecialidade,
 
-      if (!validation.success) {
+      codTuss: req.query.codTuss,
 
-        return res.status(400).json({
+      nome: req.query.nome,
 
-          erro:
-            validation.error.errors
-        });
-      }
+      status: req.query.status,
+    });
 
-      const service =
-        new ListarProcedimentosService();
+    const service = new ListarProcedimentosService();
 
-      const result =
-        await service.execute(
+    const response = await service.execute(dto);
 
-          validation.data.page,
-
-          validation.data.pageSize
-        );
-
-      return res.status(200).json(
-        result
-      );
-
-    } catch (error) {
-
-      return res.status(
-        error.status || 500
-      ).json({
-
-        erro:
-          error.message
-      });
-    }
+    return res.json(response);
   }
 }

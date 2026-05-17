@@ -1,36 +1,43 @@
 import { criarProcedimentoDto } from "../modules/procedimento/dto/criarProcedimento.dto.js";
 
-import { alterarProcedimentoDto } from "../modules/procedimento/dto/alterarProcedimento.dto.js";
+import { atualizarProcedimentoDto } from "../modules/procedimento/dto/atualizarProcedimento.dto.js";
 
 import { trocarStatusProcedimentoDto } from "../modules/procedimento/dto/trocarStatusProcedimento.dto.js";
 
-import { buscarProcedimentosDto } from "../modules/procedimento/dto/buscarProcedimentos.dto.js";
 import { buscarProcedimentoPorIdDto } from "../modules/procedimento/dto/buscarProcedimentoPorId.dto.js";
 import { listarProcedimentosDto } from "../modules/procedimento/dto/listarProcedimentos.dto.js";
 
 export function registerProcedimentoPaths(registry) {
   registry.registerPath({
-    method: "post",
+    method: "put",
 
-    path: "/procedimentos",
+    path: "/procedimentos/{id}",
 
     tags: ["Procedimentos"],
 
-    summary: "Criar procedimento",
+    summary: "Atualizar procedimento",
 
     request: {
+      params: buscarProcedimentoPorIdDto,
+
       body: {
+        required: true,
+
         content: {
           "application/json": {
-            schema: criarProcedimentoDto,
+            schema: atualizarProcedimentoDto,
           },
         },
       },
     },
 
     responses: {
-      201: {
-        description: "Procedimento criado",
+      200: {
+        description: "Procedimento atualizado",
+      },
+
+      404: {
+        description: "Procedimento não encontrado",
       },
     },
   });
@@ -42,10 +49,10 @@ export function registerProcedimentoPaths(registry) {
 
     tags: ["Procedimentos"],
 
-    summary: "Listar procedimentos",
+    summary: "Listar procedimentos paginado",
 
     request: {
-      params: listarProcedimentosDto,
+      query: listarProcedimentosDto,
     },
 
     responses: {
@@ -58,36 +65,14 @@ export function registerProcedimentoPaths(registry) {
   registry.registerPath({
     method: "get",
 
-    path: "/procedimentos?nome=x&sigla=y&cboEspecialidade=z&codTuss=w",
-
-    tags: ["Procedimentos"],
-
-    summary: "Buscar procedimentos",
-
-    description: "Busca por nome, sigla, cboEspecialidade ou codTuss",
-
-    request: {
-      query: buscarProcedimentosDto,
-    },
-
-    responses: {
-      200: {
-        description: "Procedimentos encontrados",
-      },
-    },
-  });
-
-  registry.registerPath({
-    method: "get",
-
     path: "/procedimentos/{id}",
 
     tags: ["Procedimentos"],
 
-    summary: "Buscar procedimento por id",
+    summary: "Buscar Procedimento por id",
 
     request: {
-          params: buscarProcedimentoPorIdDto,
+      params: buscarProcedimentoPorIdDto,
     },
 
     responses: {
@@ -101,40 +86,32 @@ export function registerProcedimentoPaths(registry) {
     },
   });
 
-  registry.registerPath({
-    method: "put",
+  registry.register("CriarProcedimentoDto", criarProcedimentoDto);
 
-    path: "/procedimentos/{id}",
+  registry.registerPath({
+    method: "post",
+
+    path: "/procedimentos",
 
     tags: ["Procedimentos"],
 
-    summary: "Alterar procedimento",
+    summary: "Criar procedimento",
 
     request: {
-          params: buscarProcedimentoPorIdDto,
-
       body: {
         required: true,
 
         content: {
           "application/json": {
-            schema: alterarProcedimentoDto,
+            schema: criarProcedimentoDto,
           },
         },
       },
     },
 
     responses: {
-      200: {
-        description: "Procedimento alterado com sucesso",
-      },
-
-      400: {
-        description: "Dados inválidos",
-      },
-
-      404: {
-        description: "Procedimento não encontrado",
+      201: {
+        description: "Procedimento criado com sucesso",
       },
     },
   });
@@ -142,14 +119,14 @@ export function registerProcedimentoPaths(registry) {
   registry.registerPath({
     method: "patch",
 
-    path: "/procedimentos/{id}/status",
+    path: "/procedimentos/{id}",
 
     tags: ["Procedimentos"],
 
-    summary: "Alterar status do procedimento",
+    summary: "Alterar status do Procedimento",
 
     request: {
-          params: buscarProcedimentoPorIdDto,
+      params: buscarProcedimentoPorIdDto,
 
       body: {
         required: true,
@@ -164,7 +141,7 @@ export function registerProcedimentoPaths(registry) {
 
     responses: {
       200: {
-        description: "Status alterado com sucesso",
+        description: "Status do Procedimento alterado com sucesso",
       },
 
       404: {
@@ -172,5 +149,4 @@ export function registerProcedimentoPaths(registry) {
       },
     },
   });
-  
 }

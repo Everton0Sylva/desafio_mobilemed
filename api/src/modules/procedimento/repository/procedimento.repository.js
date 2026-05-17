@@ -7,88 +7,74 @@ export class ProcedimentoRepository {
     });
   }
 
-  async buscarPorId(id) {
-    return prisma.procedimento.findFirst({
-      where: {
-        id,
+  async listar(filters) {
+    const skip = (filters.page - 1) * filters.pageSize;
 
-        status: true,
-      },
-    });
-  }
+    const where = {};
 
-  async buscar(filters) {
-    const where = {
-      status: true,
-    };
+    if (filters.sigla) {
+      where.sigla = filters.sigla;
+    }
+    if (filters.cboEspecialidade) {
+      where.cboEspecialidade = filters.cboEspecialidade;
+    }
+    if (filters.codTuss) {
+      where.codTuss = filters.codTuss;
+    }
 
     if (filters.nome) {
       where.nome = {
         contains: filters.nome,
+
+        mode: "insensitive",
       };
     }
 
-    if (filters.sigla) {
-      where.sigla = {
-        contains: filters.sigla.toUpperCase(),
-      };
+    if (filters.status !== undefined) {
+      where.status = filters.status.toLowerCase().includes("true");
     }
 
-    if (filters.cboEspecialidade) {
-      where.cboEspecialidade = filters.cboEspecialidade;
-    }
-
-    if (filters.codTuss) {
-      where.codTuss = {
-        contains: filters.codTuss,
-      };
-    }
-
-    return prisma.procedimento.findMany({
+    const data = await prisma.Procedimento.findMany({
       where,
 
-      orderBy: {
-        nome: "asc",
-      },
-    });
-  }
+      skip,
 
-  async listar(page, pageSize) {
-    const where = {
-      status: true,
-    };
-
-    const data = await prisma.procedimento.findMany({
-      where,
-
-      skip: (page - 1) * pageSize,
-
-      take: pageSize,
+      take: filters.pageSize,
 
       orderBy: {
         nome: "asc",
       },
     });
 
-    const total = await prisma.procedimento.count({
+    const total = await prisma.Procedimento.count({
       where,
     });
 
     return {
       data,
 
-      total,
+      pagination: {
+        page: filters.page,
 
-      page,
+        pageSize: filters.pageSize,
 
-      pageSize,
+        total,
 
-      totalPages: Math.ceil(total / pageSize),
+        totalPages: Math.ceil(total / filters.pageSize),
+      },
     };
   }
 
-  async alterar(id, data) {
-    return prisma.procedimento.update({
+  async buscarPorId(id) {
+    return prisma.Procedimento.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async atualizar(id, data) {
+    return prisma.Procedimento.update({
       where: {
         id,
       },
@@ -98,7 +84,7 @@ export class ProcedimentoRepository {
   }
 
   async trocarStatus(id, status) {
-    return prisma.procedimento.update({
+    return prisma.Procedimento.update({
       where: {
         id,
       },
