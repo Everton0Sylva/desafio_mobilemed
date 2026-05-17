@@ -7,10 +7,12 @@ export class BuscarPacientePorIdService {
     const repository = new PacienteRepository();
 
     const paciente = await repository.buscarPorId(id);
+    
 
     if (!paciente) {
       throw {
         status: 404,
+
         message: "Paciente não encontrado",
       };
     }

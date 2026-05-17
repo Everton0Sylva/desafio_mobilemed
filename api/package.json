@@ -4,7 +4,13 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "prisma:build": "prisma-import ./prisma/schema.prisma > ./prisma/schema-build.prisma",
+    "prisma:generate": "npm run prisma:build && prisma generate --schema ./prisma/schema-build.prisma",
+    "prisma:migrate": "npm run prisma:build && prisma migrate dev --schema ./prisma/schema-build.prisma",
+   
+    "seed:procedimentos": "ts-node prisma/seed/procedimentos.ts",
+    "seed:pacientes": "ts-node prisma/seed/pacientes.ts"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.3.4",
@@ -21,6 +27,11 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "@types/node": "^25.8.0",
+    "nodemon": "^3.1.0",
+    "prisma-import": "^1.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
+    "xlsx": "^0.18.5"
   }
 }

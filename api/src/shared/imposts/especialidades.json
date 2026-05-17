@@ -1,0 +1,527 @@
+[
+  {
+    "cbo": "201115",
+    "descricao": "Geneticista",
+    "sig_ps": "5001"
+  },
+  {
+    "cbo": "203015",
+    "descricao": "Pesquisador em biologia de microorganismos e parasitas",
+    "sig_ps": "5002"
+  },
+  {
+    "cbo": "213150",
+    "descricao": "Físico médico",
+    "sig_ps": "5003"
+  },
+  {
+    "cbo": "221105",
+    "descricao": "Biólogo",
+    "sig_ps": "5004"
+  },
+  {
+    "cbo": "223204",
+    "descricao": "Cirurgião dentista - auditor",
+    "sig_ps": "5005"
+  },
+  {
+    "cbo": "223208",
+    "descricao": "Cirurgião dentista - clínico geral",
+    "sig_ps": "5006"
+  },
+  {
+    "cbo": "223212",
+    "descricao": "Cirurgião dentista - endodontista",
+    "sig_ps": "5007"
+  },
+  {
+    "cbo": "223216",
+    "descricao": "Cirurgião dentista - epidemiologista",
+    "sig_ps": "5008"
+  },
+  {
+    "cbo": "223220",
+    "descricao": "Cirurgião dentista - estomatologista",
+    "sig_ps": "5009"
+  },
+  {
+    "cbo": "223224",
+    "descricao": "Cirurgião dentista - implantodontista",
+    "sig_ps": "5010"
+  },
+  {
+    "cbo": "223228",
+    "descricao": "Cirurgião dentista - odontogeriatra",
+    "sig_ps": "5011"
+  },
+  {
+    "cbo": "223232",
+    "descricao": "Cirurgião dentista - odontologista legal",
+    "sig_ps": "5012"
+  },
+  {
+    "cbo": "223236",
+    "descricao": "Cirurgião dentista - odontopediatra",
+    "sig_ps": "5013"
+  },
+  {
+    "cbo": "223240",
+    "descricao": "Cirurgião dentista - ortopedista e ortodontista",
+    "sig_ps": "5014"
+  },
+  {
+    "cbo": "223244",
+    "descricao": "Cirurgião dentista - patologista bucal",
+    "sig_ps": "5015"
+  },
+  {
+    "cbo": "223248",
+    "descricao": "Cirurgião dentista - periodontista",
+    "sig_ps": "5016"
+  },
+  {
+    "cbo": "223252",
+    "descricao": "Cirurgião dentista - protesiólogo bucomaxilofacial",
+    "sig_ps": "5017"
+  },
+  {
+    "cbo": "223256",
+    "descricao": "Cirurgião dentista - protesista",
+    "sig_ps": "5018"
+  },
+  {
+    "cbo": "223260",
+    "descricao": "Cirurgião dentista - radiologista",
+    "sig_ps": "5019"
+  },
+  {
+    "cbo": "223264",
+    "descricao": "Cirurgião dentista - reabilitador oral",
+    "sig_ps": "5020"
+  },
+  {
+    "cbo": "223268",
+    "descricao": "Cirurgião dentista - traumatologista bucomaxilofacial",
+    "sig_ps": "5021"
+  },
+  {
+    "cbo": "223272",
+    "descricao": "Cirurgião dentista de saúde coletiva",
+    "sig_ps": "5022"
+  },
+  {
+    "cbo": "223276",
+    "descricao": "Cirurgião dentista - odontologia do trabalho",
+    "sig_ps": "5023"
+  },
+  {
+    "cbo": "223280",
+    "descricao": "Cirurgião dentista - dentística",
+    "sig_ps": "5024"
+  },
+  {
+    "cbo": "223284",
+    "descricao": "Cirurgião dentista - disfunção temporomandibular e dor orofacial",
+    "sig_ps": "5025"
+  },
+  {
+    "cbo": "223288",
+    "descricao": "Cirurgião dentista - odontologia para pacientes com necessidades especiais",
+    "sig_ps": "5026"
+  },
+  {
+    "cbo": "223293",
+    "descricao": "Cirurgião-dentista da estratégia de saúde da família",
+    "sig_ps": "5027"
+  },
+  {
+    "cbo": "223505",
+    "descricao": "Enfermeiro",
+    "sig_ps": "5028"
+  },
+  {
+    "cbo": "223605",
+    "descricao": "Fisioterapeuta geral",
+    "sig_ps": "5029"
+  },
+  {
+    "cbo": "223710",
+    "descricao": "Nutricionista",
+    "sig_ps": "5030"
+  },
+  {
+    "cbo": "223810",
+    "descricao": "Fonoaudiólogo",
+    "sig_ps": "5031"
+  },
+  {
+    "cbo": "223905",
+    "descricao": "Terapeuta ocupacional",
+    "sig_ps": "5032"
+  },
+  {
+    "cbo": "223910",
+    "descricao": "Ortoptista",
+    "sig_ps": "5033"
+  },
+  {
+    "cbo": "225103",
+    "descricao": "Médico infectologista",
+    "sig_ps": "5034"
+  },
+  {
+    "cbo": "225105",
+    "descricao": "Médico acupunturista",
+    "sig_ps": "5035"
+  },
+  {
+    "cbo": "225106",
+    "descricao": "Médico legista",
+    "sig_ps": "5036"
+  },
+  {
+    "cbo": "225109",
+    "descricao": "Médico Nefrologista",
+    "sig_ps": "5037"
+  },
+  {
+    "cbo": "225110",
+    "descricao": "Médico alergista e imunologista",
+    "sig_ps": "5038"
+  },
+  {
+    "cbo": "225112",
+    "descricao": "Médico neurologista",
+    "sig_ps": "5039"
+  },
+  {
+    "cbo": "225115",
+    "descricao": "Médico angiologista",
+    "sig_ps": "5040"
+  },
+  {
+    "cbo": "225118",
+    "descricao": "Médico nutrologista",
+    "sig_ps": "5041"
+  },
+  {
+    "cbo": "225120",
+    "descricao": "Médico cardiologista",
+    "sig_ps": "5042"
+  },
+  {
+    "cbo": "225121",
+    "descricao": "Médico oncologista clínico",
+    "sig_ps": "5043"
+  },
+  {
+    "cbo": "225122",
+    "descricao": "Médico cancerologista pediátrico",
+    "sig_ps": "5044"
+  },
+  {
+    "cbo": "225124",
+    "descricao": "Médico pediatra",
+    "sig_ps": "5045"
+  },
+  {
+    "cbo": "225125",
+    "descricao": "Médico clínico",
+    "sig_ps": "5046"
+  },
+  {
+    "cbo": "225127",
+    "descricao": "Médico pneumologista",
+    "sig_ps": "5047"
+  },
+  {
+    "cbo": "225130",
+    "descricao": "Médico de família e comunidade",
+    "sig_ps": "5048"
+  },
+  {
+    "cbo": "225133",
+    "descricao": "Médico psiquiatra",
+    "sig_ps": "5049"
+  },
+  {
+    "cbo": "225135",
+    "descricao": "Médico dermatologista",
+    "sig_ps": "5050"
+  },
+  {
+    "cbo": "225136",
+    "descricao": "Médico reumatologista",
+    "sig_ps": "5051"
+  },
+  {
+    "cbo": "225139",
+    "descricao": "Médico sanitarista",
+    "sig_ps": "5052"
+  },
+  {
+    "cbo": "225140",
+    "descricao": "Médico do trabalho",
+    "sig_ps": "5053"
+  },
+  {
+    "cbo": "225142",
+    "descricao": "Médico da estratégia de saúde da família",
+    "sig_ps": "5054"
+  },
+  {
+    "cbo": "225145",
+    "descricao": "Médico em medicina de tráfego",
+    "sig_ps": "5055"
+  },
+  {
+    "cbo": "225148",
+    "descricao": "Médico anatomopatologista",
+    "sig_ps": "5056"
+  },
+  {
+    "cbo": "225150",
+    "descricao": "Médico em medicina intensiva",
+    "sig_ps": "5057"
+  },
+  {
+    "cbo": "225151",
+    "descricao": "Médico anestesiologista",
+    "sig_ps": "5058"
+  },
+  {
+    "cbo": "225155",
+    "descricao": "Médico endocrinologista e metabologista",
+    "sig_ps": "5059"
+  },
+  {
+    "cbo": "225160",
+    "descricao": "Médico fisiatra",
+    "sig_ps": "5060"
+  },
+  {
+    "cbo": "225165",
+    "descricao": "Médico gastroenterologista",
+    "sig_ps": "5061"
+  },
+  {
+    "cbo": "225170",
+    "descricao": "Médico generalista",
+    "sig_ps": "5062"
+  },
+  {
+    "cbo": "225175",
+    "descricao": "Médico geneticista",
+    "sig_ps": "5063"
+  },
+  {
+    "cbo": "225180",
+    "descricao": "Médico geriatra",
+    "sig_ps": "5064"
+  },
+  {
+    "cbo": "225185",
+    "descricao": "Médico Hematologista",
+    "sig_ps": "5065"
+  },
+  {
+    "cbo": "225195",
+    "descricao": "Médico Homeopata",
+    "sig_ps": "5066"
+  },
+  {
+    "cbo": "225203",
+    "descricao": "Médico em cirurgia vascular",
+    "sig_ps": "5067"
+  },
+  {
+    "cbo": "225210",
+    "descricao": "Médico cirurgião cardiovascular",
+    "sig_ps": "5068"
+  },
+  {
+    "cbo": "225215",
+    "descricao": "Médico cirurgião de cabeça e pescoço",
+    "sig_ps": "5069"
+  },
+  {
+    "cbo": "225220",
+    "descricao": "Médico cirurgião do aparelho digestivo",
+    "sig_ps": "5070"
+  },
+  {
+    "cbo": "225225",
+    "descricao": "Médico cirurgião geral",
+    "sig_ps": "5071"
+  },
+  {
+    "cbo": "225230",
+    "descricao": "Médico cirurgião pediátrico",
+    "sig_ps": "5072"
+  },
+  {
+    "cbo": "225235",
+    "descricao": "Médico cirurgião plástico",
+    "sig_ps": "5073"
+  },
+  {
+    "cbo": "225240",
+    "descricao": "Médico cirurgião torácico",
+    "sig_ps": "5074"
+  },
+  {
+    "cbo": "225250",
+    "descricao": "Médico ginecologista e obstetra",
+    "sig_ps": "5075"
+  },
+  {
+    "cbo": "225255",
+    "descricao": "Médico Mastologista",
+    "sig_ps": "5076"
+  },
+  {
+    "cbo": "225260",
+    "descricao": "Médico  neurocirurgião",
+    "sig_ps": "5077"
+  },
+  {
+    "cbo": "225265",
+    "descricao": "Médico oftalmologista",
+    "sig_ps": "5078"
+  },
+  {
+    "cbo": "225270",
+    "descricao": "Médico ortopedista e traumatologista",
+    "sig_ps": "5079"
+  },
+  {
+    "cbo": "225275",
+    "descricao": "Médico otorrinolaringologista",
+    "sig_ps": "5080"
+  },
+  {
+    "cbo": "225280",
+    "descricao": "Médico proctologista",
+    "sig_ps": "5081"
+  },
+  {
+    "cbo": "225285",
+    "descricao": "Médico urologista",
+    "sig_ps": "5082"
+  },
+  {
+    "cbo": "225290",
+    "descricao": "Médico cancerologista cirúrgico",
+    "sig_ps": "5083"
+  },
+  {
+    "cbo": "225295",
+    "descricao": "Médico cirurgião da mão",
+    "sig_ps": "5084"
+  },
+  {
+    "cbo": "225305",
+    "descricao": "Médico citopatologista",
+    "sig_ps": "5085"
+  },
+  {
+    "cbo": "225310",
+    "descricao": "Médico em endoscopia",
+    "sig_ps": "5086"
+  },
+  {
+    "cbo": "225315",
+    "descricao": "Médico em medicina nuclear",
+    "sig_ps": "5087"
+  },
+  {
+    "cbo": "225320",
+    "descricao": "Médico em radiologia e diagnóstico por imagem",
+    "sig_ps": "5088"
+  },
+  {
+    "cbo": "225325",
+    "descricao": "Médico patologista",
+    "sig_ps": "5089"
+  },
+  {
+    "cbo": "225330",
+    "descricao": "Médico radioterapeuta",
+    "sig_ps": "5090"
+  },
+  {
+    "cbo": "225335",
+    "descricao": "Médico patologista clínico / medicina laboratorial",
+    "sig_ps": "5091"
+  },
+  {
+    "cbo": "225340",
+    "descricao": "Médico hemoterapeuta",
+    "sig_ps": "5092"
+  },
+  {
+    "cbo": "225345",
+    "descricao": "Médico hiperbarista",
+    "sig_ps": "5093"
+  },
+  {
+    "cbo": "225350",
+    "descricao": "Médico neurofisiologista",
+    "sig_ps": "5094"
+  },
+  {
+    "cbo": "239425",
+    "descricao": "Psicopedagogo",
+    "sig_ps": "5095"
+  },
+  {
+    "cbo": "251510",
+    "descricao": "Psicólogo clínico",
+    "sig_ps": "5096"
+  },
+  {
+    "cbo": "251545",
+    "descricao": "Neuropsicólogo",
+    "sig_ps": "5097"
+  },
+  {
+    "cbo": "251550",
+    "descricao": "Psicanalista",
+    "sig_ps": "5098"
+  },
+  {
+    "cbo": "251605",
+    "descricao": "Assistente social",
+    "sig_ps": "5099"
+  },
+  {
+    "cbo": "322205",
+    "descricao": "Técnico de enfermagem",
+    "sig_ps": "5100"
+  },
+  {
+    "cbo": "322220",
+    "descricao": "Técnico de enfermagem psiquiátrica",
+    "sig_ps": "5101"
+  },
+  {
+    "cbo": "322225",
+    "descricao": "Instrumentador cirúrgico",
+    "sig_ps": "5102"
+  },
+  {
+    "cbo": "322230",
+    "descricao": "Auxiliar de enfermagem",
+    "sig_ps": "5103"
+  },
+  {
+    "cbo": "516210",
+    "descricao": "Cuidador de idosos",
+    "sig_ps": "5104"
+  },
+  {
+    "cbo": "999999",
+    "descricao": "CBO desconhecido ou não informado pelo solicitante",
+    "sig_ps": "5105"
+  }
+]

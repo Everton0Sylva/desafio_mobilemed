@@ -2,97 +2,76 @@ import { prisma } from "../../../shared/database/prisma.js";
 
 export class PacienteRepository {
   async criar(data) {
+    const pacienteExistente = await prisma.paciente.findUnique({
+      where: {
+        documento: data.documento,
+      },
+    });
+
+    if (pacienteExistente) {
+      throw {
+        status: 409,
+
+        message: "Paciente já cadastrado",
+      };
+    }
+
     return prisma.paciente.create({
       data,
     });
   }
 
-  async buscar(filters) {
+  async listar({ page, pageSize, documento, nome, status }) {
+    const skip = (page - 1) * pageSize;
 
-  const {
-    nome,
-    documento
-  } = filters;
+    const where = {};
 
-  const where = {
-
-    status: true
-  };
-
-  if (nome) {
-
-    where.nome = {
-
-      contains: nome
-    };
-  }
-
-  if (documento) {
-
-    where.documento =
-      documento;
-  }
-
-  return prisma.paciente.findMany({
-
-    where,
-
-    orderBy: {
-
-      nome: 'asc'
+    if (documento) {
+      where.documento = documento;
     }
-  });
-}
-async listar(filters) {
 
-  const {
-    page,
-    pageSize
-  } = filters;
+    if (nome) {
+      where.nome = {
+        contains: nome,
 
-  const where = {
+        mode: "insensitive",
+      };
+    }
 
-    status: true
-  };
+    if (status !== undefined) {
+      where.status = status.toLowerCase().includes("true");
+    }
 
-  const pacientes =
-    await prisma.paciente.findMany({
-
+    const data = await prisma.paciente.findMany({
       where,
 
-      skip:
-        (page - 1) * pageSize,
+      skip,
 
-      take:
-        pageSize,
+      take: pageSize,
 
       orderBy: {
-
-        nome: 'asc'
-      }
+        nome: "asc",
+      },
     });
 
-  const total =
-    await prisma.paciente.count({
-      where
+    const total = await prisma.paciente.count({
+      where,
     });
 
-  return {
+    return {
+      data,
 
-    data: pacientes,
+      pagination: {
+        page,
 
-    total,
+        pageSize,
 
-    page,
+        total,
 
-    pageSize,
-
-    totalPages:
-      Math.ceil(
-        total / pageSize
-      )
-  };
-}
+        totalPages: Math.ceil(total / pageSize),
+      },
+    };
+  }
 
   async buscarPorId(id) {
     return prisma.paciente.findUnique({
@@ -112,20 +91,15 @@ async listar(filters) {
     });
   }
 
-  async trocarStatus(
-  id,
-  status
-) {
+  async trocarStatus(id, status) {
+    return prisma.paciente.update({
+      where: {
+        id,
+      },
 
-  return prisma.paciente.update({
-
-    where: {
-      id
-    },
-
-    data: {
-      status
-    }
-  });
-}
+      data: {
+        status,
+      },
+    });
+  }
 }

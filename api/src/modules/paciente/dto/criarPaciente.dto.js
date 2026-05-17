@@ -12,6 +12,10 @@ export const criarPacienteDto = z.object({
     example: "11122233300",
   }),
 
+  dataNascimento: z.coerce.date().openapi({
+    example: "1990-10-01",
+  }),
+
   telefone: z.string().openapi({
     example: "1933333333",
   }),

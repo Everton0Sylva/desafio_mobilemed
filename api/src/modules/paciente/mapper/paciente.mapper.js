@@ -5,6 +5,8 @@ export class PacienteMapper {
 
       documento: data.documento,
 
+      dataNascimento: data.dataNascimento,
+
       telefone: data.telefone,
 
       celular: data.celular,
@@ -43,6 +45,8 @@ export class PacienteMapper {
 
       documento: data.documento,
 
+      dataNascimento: data.dataNascimento,
+
       telefone: data.telefone,
 
       celular: data.celular,
@@ -67,11 +71,9 @@ export class PacienteMapper {
 
       uf: data.uf,
 
-      createdAt:
-        data.createdAt,
+      createdAt: data.createdAt,
 
-      updatedAt:
-        data.updatedAt
+      updatedAt: data.updatedAt,
     };
   }
 }

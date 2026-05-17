@@ -1,15 +1,9 @@
-import { PacienteRepository }
-from '../repository/paciente.repository.js';
+import { PacienteRepository } from "../repository/paciente.repository.js";
 
 export class ListarPacientesService {
+  async execute(data) {
+    const repository = new PacienteRepository();
 
-  async execute(filters) {
-
-    const repository =
-      new PacienteRepository();
-
-    return repository.listar(
-      filters
-    );
+    return repository.listar(data);
   }
 }

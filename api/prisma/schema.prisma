@@ -6,36 +6,90 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-model Paciente {
 
-  id              String   @id @default(uuid())
-  nome            String
-  documento       String   @unique
-  telefone        String
-  celular         String
-  foto            String?
-  biometria       String?
-  tipoSanguineo   TipoSanguineo
-  whatsapp        Boolean
-  status          Boolean
-  cep             String
-  logradouro      String?
-  numero          String?
-  bairro          String?
-  complemento     String?
-  cidade          String
-  uf              String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+model Paciente {
+  id            String        @id @default(uuid())
+  nome          String
+  documento     String        @unique
+  dataNascimento DateTime
+  telefone      String
+  celular       String
+  foto          String?
+  biometria     String?
+  tipoSanguineo TipoSanguineo
+  whatsapp      Boolean
+  status        Boolean
+  cep           String
+  logradouro    String?
+  numero        String?
+  bairro        String?
+  complemento   String?
+  cidade        String
+  uf            String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  exames Exame[]
 }
 
 enum TipoSanguineo {
-  AP    //  A_POSITIVO
-  AN    //  A_NEGATIVO
-  BP    // B_POSITIVO
-  BN    //B_NEGATIVO
-  ABP   // AB_POSITIVO
-  ABN   //  AB_NEGATIVO
-  OP    //  O_POSITIVO
-  ON  //  O_NEGATIVO
+  AP //  A_POSITIVO
+  AN //  A_NEGATIVO
+  BP // B_POSITIVO
+  BN //B_NEGATIVO
+  ABP // AB_POSITIVO
+  ABN //  AB_NEGATIVO
+  OP //  O_POSITIVO
+  ON //  O_NEGATIVO
+}
+
+model Procedimento {
+  id String @id @default(uuid())
+
+  sigla String @db.VarChar(4)
+
+  nome String
+
+  cboEspecialidade String
+
+  codTuss String?
+
+  status Boolean @default(true)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  exames Exame[]
+
+  @@index([nome])
+  @@index([cboEspecialidade])
+}
+
+model Exame {
+  id String @id @default(cuid())
+  pacienteId String
+  procedimentoExameId String
+  idempotencyKey String @unique
+  status SituacaoExame @default(SOLICITADO)
+  paciente Paciente @relation(fields: [pacienteId], references: [id])
+  procedimento Procedimento @relation(fields: [procedimentoExameId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SituacaoExame {
+  SOLICITADO
+
+  AGENDADO
+
+  EM_ANDAMENTO
+
+  PROCESSANDO
+
+  FINALIZADO
+
+  CANCELADO
+
+  ENTREGUE
 }

@@ -1,53 +1,24 @@
-import {
-  listarPacientesDto
-}
-from '../dto/listarPacientes.dto.js';
-
-import {
-  ListarPacientesService
-}
-from '../service/listarPacientes.service.js';
+import { listarPacientesDto } from "../dto/listarPacientes.dto.js";
+import { ListarPacientesService } from "../service/listarPacientes.service.js";
 
 export class ListarPacientesController {
-
   async handle(req, res) {
+    const dto = listarPacientesDto.parse({
+      page: req.query.page,
 
-    try {
+      pageSize: req.query.pageSize,
 
-      const validation =
-        listarPacientesDto
-          .safeParse(req.query);
+      documento: req.query.documento,
 
-      if (!validation.success) {
+      nome: req.query.nome,
 
-        return res.status(400).json({
+      status: req.query.status,
+    });
 
-          erro:
-            validation.error.errors
-        });
-      }
+    const service = new ListarPacientesService();
 
-      const service =
-        new ListarPacientesService();
+    const response = await service.execute(dto);
 
-      const result =
-        await service.execute(
-          validation.data
-        );
-
-      return res.status(200).json(
-        result
-      );
-
-    } catch (error) {
-
-      return res.status(
-        error.status || 500
-      ).json({
-
-        erro:
-          error.message
-        });
-    }
+    return res.json(response);
   }
 }
