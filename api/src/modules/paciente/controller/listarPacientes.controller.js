@@ -3,7 +3,7 @@ import { ListarPacientesService } from "../service/listarPacientes.service.js";
 
 export class ListarPacientesController {
   async handle(req, res) {
-    const dto = listarPacientesDto.parse({
+    const input = {
       page: req.query.page,
 
       pageSize: req.query.pageSize,
@@ -11,10 +11,13 @@ export class ListarPacientesController {
       documento: req.query.documento,
 
       nome: req.query.nome,
+    };
 
-      status: req.query.status,
-    });
+    if (req.query.status !== undefined) {
+      input.status = req.query.status;
+    }
 
+    const dto = listarPacientesDto.parse(input);
     const service = new ListarPacientesService();
 
     const response = await service.execute(dto);

@@ -67,7 +67,10 @@ describe('Pacientes API', () => {
         { id: 'id1', nome: 'A', documento: '1' },
         { id: 'id2', nome: 'B', documento: '2' },
       ],
-      pagination: { page: 1, pageSize: 10, total: 2, totalPages: 1 },
+      page: 1,
+      pageSize: 10,
+      total: 2,
+      totalPages: 1,
     };
 
     jest.spyOn(PacienteRepository.prototype, 'listar').mockResolvedValue(pageResult);
@@ -76,6 +79,6 @@ describe('Pacientes API', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('data');
-    expect(res.body.pagination.pageSize).toBe(10);
+    expect(res.body.pageSize).toBe(10);
   });
 });

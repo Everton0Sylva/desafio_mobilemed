@@ -5,7 +5,7 @@ export class ExameMapper {
     return {
       pacienteId: data.pacienteId,
       idProcedimento: data.idProcedimento,
-      idempotencyKey: crypto.randomUUID(),
+      idempotencyKey: data.idempotencyKey || crypto.randomUUID(),
       status: data.status ?? "SOLICITADO",
     };
   }

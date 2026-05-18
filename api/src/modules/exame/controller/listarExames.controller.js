@@ -4,18 +4,24 @@ import { ListarExamesService } from '../service/listarExames.service.js';
 export class ListarExamesController {
   async handle(req, res) {
     try {
-      const validation = listarExamesDto.safeParse(req.query);
+      const input = {
+        page: req.query.page,
+        pageSize: req.query.pageSize,
+        pacienteId: req.query.pacienteId,
+        idProcedimento: req.query.idProcedimento,
+        status: req.query.status,
+      };
 
-      if (!validation.success) {
-        return res.status(400).json({ erro: validation.error.errors });
-      }
+      const dto = listarExamesDto.parse(input);
 
       const service = new ListarExamesService();
-      const result = await service.execute(validation.data.page, validation.data.pageSize);
+      const result = await service.execute(dto);
 
       return res.status(200).json(result);
     } catch (error) {
-      return res.status(error.status || 500).json({ erro: error.message });
+      return res.status(error.status || 500).json({ 
+        erro: error.message || error.errors || "Erro ao listar exames" 
+      });
     }
   }
 }

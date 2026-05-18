@@ -13,7 +13,11 @@ export class CriarExameController {
       const service = new CriarExameService();
       const result = await service.execute(validation.data);
 
-      return res.status(201).json(result);
+      if (result.created === false) {
+        return res.status(200).json(result.exame);
+      }
+
+      return res.status(201).json(result.exame);
     } catch (error) {
       return res.status(error.status || 500).json({ erro: error.message });
     }

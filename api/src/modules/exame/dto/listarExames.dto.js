@@ -10,5 +10,16 @@ export const listarExamesDto = z.object({
       z.coerce.number()
         .min(1)
         .max(100)
-        .default(10)
-  });
+        .default(10),
+  pacienteId: z.string().uuid().optional(),
+  idProcedimento: z.string().uuid().optional(),
+  status: z.enum([
+    'SOLICITADO',
+    'AGENDADO',
+    'EM_ANDAMENTO',
+    'PROCESSANDO',
+    'FINALIZADO',
+    'CANCELADO',
+    'ENTREGUE',
+  ]).optional(),
+});

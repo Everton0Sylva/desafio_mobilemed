@@ -25,8 +25,6 @@ export class ProcedimentoRepository {
     if (filters.nome) {
       where.nome = {
         contains: filters.nome,
-
-        mode: "insensitive",
       };
     }
 
@@ -52,16 +50,10 @@ export class ProcedimentoRepository {
 
     return {
       data,
-
-      pagination: {
-        page: filters.page,
-
-        pageSize: filters.pageSize,
-
-        total,
-
-        totalPages: Math.ceil(total / filters.pageSize),
-      },
+      page: filters.page,
+      pageSize: filters.pageSize,
+      total,
+      totalPages: Math.ceil(total / filters.pageSize),
     };
   }
 

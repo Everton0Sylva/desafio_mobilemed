@@ -25,9 +25,11 @@ export class AtualizarProcedimentoService {
       };
     }
 
-    return repository.atualizar(
+    const updated = await repository.atualizar(
       id,
       data
     );
+
+    return ProcedimentoMapper.toResponse(updated);
   }
 }

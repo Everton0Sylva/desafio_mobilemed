@@ -60,16 +60,10 @@ export class PacienteRepository {
 
     return {
       data,
-
-      pagination: {
-        page,
-
-        pageSize,
-
-        total,
-
-        totalPages: Math.ceil(total / pageSize),
-      },
+      page,
+      pageSize,
+      total,
+      totalPages: Math.ceil(total / pageSize),
     };
   }
 

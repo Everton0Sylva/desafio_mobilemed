@@ -14,7 +14,7 @@ export class AlterarExameService {
     }
 
     const payload = ExameMapper.toUpdate(data);
-    const updatedExame = await repository.alterar(id, payload);
+    const updatedExame = await repository.atualizar(id, payload);
 
     return ExameMapper.toResponse(updatedExame);
   }

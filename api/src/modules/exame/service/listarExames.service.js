@@ -2,9 +2,9 @@ import { ExameRepository } from '../repository/exame.repository.js';
 import { ExameMapper } from '../mapper/exame.mapper.js';
 
 export class ListarExamesService {
-  async execute(page, pageSize) {
+  async execute(data) {
     const repository = new ExameRepository();
-    const result = await repository.listar(page, pageSize);
+    const result = await repository.listar(data);
 
     return {
       ...result,

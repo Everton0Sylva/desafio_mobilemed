@@ -1,9 +1,13 @@
+import { PacienteRepository } from '../../paciente/repository/paciente.repository.js';
+import { ProcedimentoRepository } from '../../procedimento/repository/procedimento.repository.js';
+import { ExameRepository } from '../repository/exame.repository.js';
+import { ExameMapper } from '../mapper/exame.mapper.js';
+
 export class CriarExameService {
 
   async execute(data) {
 
-    const pacienteRepository =
-      new PacienteRepository();
+    const pacienteRepository = new PacienteRepository();
 
     const paciente =
 
@@ -44,23 +48,12 @@ export class CriarExameService {
       };
     }
 
-    const repository =
-      new ExameRepository();
+    const repository = new ExameRepository();
 
-    const payload =
+    const payload = ExameMapper.toPersistence(data);
 
-      ExameMapper.toPersistence(
-        data
-      );
+    const { exame, created } = await repository.criar(payload);
 
-    const exame =
-
-      await repository.criar(
-        payload
-      );
-
-    return ExameMapper.toResponse(
-      exame
-    );
+    return { exame: ExameMapper.toResponse(exame), created };
   }
 }

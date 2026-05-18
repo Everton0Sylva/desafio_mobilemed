@@ -9,12 +9,12 @@ export class ExameRepository {
     });
 
     if (exameExistente) {
-      return exameExistente;
+      return { exame: exameExistente, created: false };
     }
 
-    return prisma.exame.create({
-      data,
-    });
+    const created = await prisma.exame.create({ data });
+
+    return { exame: created, created: true };
   }
 
   async buscarPorId(id) {
@@ -25,50 +25,46 @@ export class ExameRepository {
     });
   }
 
-  async buscar(filters) {
+  async listar({ page, pageSize, pacienteId, idProcedimento, status }) {
+    const skip = (page - 1) * pageSize;
+
     const where = {};
 
-    if (filters.pacienteId) {
-      where.pacienteId = filters.pacienteId;
+    if (pacienteId) {
+      where.pacienteId = pacienteId;
     }
 
-    if (filters.idProcedimento) {
-      where.idProcedimento = filters.idProcedimento;
+    if (idProcedimento) {
+      where.idProcedimento = idProcedimento;
     }
 
-    if (filters.status) {
-      where.status = filters.status;
+    if (status) {
+      where.status = status;
     }
 
-    return prisma.exame.findMany({
-      where,
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-  }
-
-  async listar(page, pageSize) {
     const data = await prisma.exame.findMany({
-      skip: (page - 1) * pageSize,
+      where,
+      skip,
       take: pageSize,
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    const total = await prisma.exame.count({});
+    const total = await prisma.exame.count({
+      where,
+    });
 
     return {
       data,
-      total,
       page,
       pageSize,
+      total,
       totalPages: Math.ceil(total / pageSize),
     };
   }
 
-  async alterar(id, data) {
+  async atualizar(id, data) {
     return prisma.exame.update({
       where: {
         id,
