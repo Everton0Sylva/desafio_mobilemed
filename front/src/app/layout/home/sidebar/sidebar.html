@@ -1,0 +1,12 @@
+<div class="sidebar-container">
+  <nav class="nav flex-column">
+    <li class="nav-item">
+      <span class="sidebar-head" aria-disabled="true">MobileMed</span>
+    </li>
+    @for (item of menu; track $index) {
+      <li class="nav-item ms-3 mt-2">
+        <span class="sidebar-item" (click)="goTo(item.path)">{{ item.label }}</span>
+      </li>
+    }
+  </nav>
+</div>

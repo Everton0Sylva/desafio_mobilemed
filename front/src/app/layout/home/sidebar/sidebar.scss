@@ -1,0 +1,28 @@
+.sidebar-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  padding-top: 3rem;
+  padding-left: 2rem;
+
+  background-color: var(--bg);
+  color: var(--text);
+
+  box-shadow: rgba(0, 0, 0, 0.1) -10px 0px 36px 0px inset;
+
+  &.dark-shadow {
+    box-shadow: rgba(255, 255, 255, 0.1) -10px 0px 36px 0px inset;
+  }
+}
+
+.sidebar-head {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: none;
+  opacity: 0.3;
+}
+
+.sidebar-item {
+  cursor: pointer;
+  text-decoration: none;
+}

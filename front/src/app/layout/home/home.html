@@ -1,0 +1,13 @@
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    <div class="col-md-3 col-lg-2 g-0 vh-100">
+      <mobilemed-sidebar [menu]="menu"></mobilemed-sidebar>
+    </div>
+    <main class="col-md-9 col-lg-10 d-flex flex-column g-0 vh-100">
+      <mobilemed-header></mobilemed-header>
+      <div class="p-3 overflow-x-hidden">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>
