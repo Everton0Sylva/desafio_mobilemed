@@ -9,6 +9,10 @@ export const routes: Routes = [
       {
         path: 'paciente',
         loadChildren: () => import('./features/paciente/paciente.routes').then((c) => c.pacienteRoutes),
+      },
+      {
+        path: 'exame',
+        loadChildren: () => import('./features/exame/exame.routes').then((c) => c.exameRoutes),
       }
     ]
   },
