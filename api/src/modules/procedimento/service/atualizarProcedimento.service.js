@@ -11,15 +11,12 @@ export class AtualizarProcedimentoService {
     const repository =
       new ProcedimentoRepository();
 
-    const Procedimento =
+    const procedimento =
       await repository.buscarPorId(id);
 
-    if (!Procedimento) {
-
+    if (!procedimento) {
       throw {
-
         status: 404,
-
         message:
           'Procedimento não encontrado'
       };

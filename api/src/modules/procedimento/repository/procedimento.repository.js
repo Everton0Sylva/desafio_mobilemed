@@ -7,58 +7,55 @@ export class ProcedimentoRepository {
     });
   }
 
-  async listar(filters) {
-    const skip = (filters.page - 1) * filters.pageSize;
+  async listar({ page, pageSize, sigla, cboEspecialidade, codTuss, nome, status }) {
+    const skip = (page - 1) * pageSize;
 
     const where = {};
 
-    if (filters.sigla) {
-      where.sigla = filters.sigla;
+    if (sigla) {
+      where.sigla = sigla;
     }
-    if (filters.cboEspecialidade) {
-      where.cboEspecialidade = filters.cboEspecialidade;
+    if (cboEspecialidade) {
+      where.cboEspecialidade = cboEspecialidade;
     }
-    if (filters.codTuss) {
-      where.codTuss = filters.codTuss;
+    if (codTuss) {
+      where.codTuss = codTuss;
     }
 
-    if (filters.nome) {
+    if (nome) {
       where.nome = {
-        contains: filters.nome,
+        contains: nome,
       };
     }
 
-    if (filters.status !== undefined) {
-      where.status = filters.status.toLowerCase().includes("true");
+    if (status !== undefined) {
+      where.status = status.toLowerCase().includes("true");
     }
 
-    const data = await prisma.Procedimento.findMany({
+    const data = await prisma.procedimento.findMany({
       where,
-
       skip,
-
-      take: filters.pageSize,
-
+      take: pageSize,
       orderBy: {
         nome: "asc",
       },
     });
 
-    const total = await prisma.Procedimento.count({
+    const total = await prisma.procedimento.count({
       where,
     });
 
     return {
       data,
-      page: filters.page,
-      pageSize: filters.pageSize,
+      page,
+      pageSize,
       total,
-      totalPages: Math.ceil(total / filters.pageSize),
+      totalPages: Math.ceil(total / pageSize),
     };
   }
 
   async buscarPorId(id) {
-    return prisma.Procedimento.findUnique({
+    return prisma.procedimento.findUnique({
       where: {
         id,
       },
@@ -66,21 +63,19 @@ export class ProcedimentoRepository {
   }
 
   async atualizar(id, data) {
-    return prisma.Procedimento.update({
+    return prisma.procedimento.update({
       where: {
         id,
       },
-
       data,
     });
   }
 
   async trocarStatus(id, status) {
-    return prisma.Procedimento.update({
+    return prisma.procedimento.update({
       where: {
         id,
       },
-
       data: {
         status,
       },
