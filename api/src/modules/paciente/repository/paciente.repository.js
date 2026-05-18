@@ -27,14 +27,14 @@ export class PacienteRepository {
     const where = {};
 
     if (documento) {
-      where.documento = documento;
+      where.documento = {
+        contains: documento,
+      };
     }
 
     if (nome) {
       where.nome = {
-        contains: nome,
-
-        mode: "insensitive",
+        contains: nome
       };
     }
 
