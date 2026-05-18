@@ -1,3 +1,5 @@
+import { TipoSanguineo } from '../model/tipo-sanguineo.enum';
+
 export interface IPaciente {
     id: string;
     nome: string;
@@ -7,9 +9,9 @@ export interface IPaciente {
     celular: string;
     foto: string | null;
     biometria: string | null;
-    tipoSanguineo: string;
+    tipoSanguineo: TipoSanguineo | '';
     whatsapp: boolean;
-    status: string;
+    status: boolean;
     cep: string;
     logradouro: string;
     numero: string;
@@ -17,6 +19,6 @@ export interface IPaciente {
     complemento: string;
     cidade: string;
     uf: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 }

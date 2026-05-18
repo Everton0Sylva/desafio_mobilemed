@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { ITableColumn } from '../../interface/itable-column';
-import { ITableSort } from '../../interface/itable-sort';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { IRestResponse } from '../../interface/irestresponse';
 import { FormsModule } from '@angular/forms';
@@ -23,38 +22,40 @@ import { DatePipe } from '@angular/common';
   styleUrl: './table.scss',
 })
 export class Table<T> {
-  @Input() restResp: IRestResponse<any> = {
+  private _restResp: IRestResponse<any> = {
     data: [],
     pageNumber: 1,
     pageSize: 10,
     totalCount: 0,
     totalPages: 1
   };
+
+  @Input()
+  set restResp(value: IRestResponse<any>) {
+    this._restResp = value ?? this._restResp;
+    this.currentPage = (value as any)?.page ?? (value as any)?.page ?? value?.pageNumber ?? 1;
+    this.currentPageSize = (value as any)?.pageSize ?? (value as any)?.pageSize ?? value?.pageSize ?? 10;
+  }
+  get restResp() { return this._restResp; }
   @Input() columns: ITableColumn<T>[] = [];
 
   @Output() action = new EventEmitter();
   @Output() pageChange = new EventEmitter();
 
-  sort = { column: 'name', direction: '' as '' | 'asc' | 'desc' };
-  page = { index: 0, size: 5 };
+  get total() {
+    return (this.restResp as any)?.total ?? (this.restResp as any)?.total ?? this.restResp?.totalCount ?? 0;
+  }
 
+  get totalPages() {
+    return (this.restResp as any)?.totalPages ?? (this.restResp as any)?.totalPages ?? Math.max(1, Math.ceil(this.total / (this.restResp?.pageSize ?? this.currentPageSize)));
+  }
 
-  sortState: ITableSort = { column: '', direction: '' };
-
-  get total() { return this.restResp?.totalCount ?? 0; }
-  get totalPages() { return this.restResp?.totalPages ?? Math.max(1, Math.ceil(this.total / this.restResp?.pageSize)); }
+  // pagination controls bound to the template
+  currentPage: number = 1;
+  currentPageSize: number = 10;
 
   get pageItems() {
     return this.restResp?.data as IRow[];
-  }
-
-  toggleSort(column: string) {
-    let dir: ITableSort['direction'] = 'asc';
-    if (this.sortState.column === column) {
-      dir = this.sortState.direction === 'asc' ? 'desc' : this.sortState.direction === 'desc' ? '' : 'asc';
-    }
-    this.sortState = { column, direction: dir };
-    // this.sort.emit(this.sortState);
   }
 
   // ações
@@ -64,6 +65,8 @@ export class Table<T> {
   }
 
   pageChanged(event: any): void {
+    // update local page and propagate
+    if (event && event.page) this.currentPage = event.page;
     this.pageChange.emit(event.page);
   }
 }

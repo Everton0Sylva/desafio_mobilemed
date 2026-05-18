@@ -1,5 +1,6 @@
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
@@ -10,7 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(BrowserModule, ModalModule.forRoot()),
+    importProvidersFrom(BrowserModule, HttpClientModule, ModalModule.forRoot()),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideEnvironmentNgxMask(),

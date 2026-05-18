@@ -1,16 +1,54 @@
 <div class="d-flex flex-column p-3">
   <div class="col-12 d-flex flex-row justify-content-between">
-    <span class="page-title"><i class="fa-solid fa-list-check"></i>Lista de Produtos</span>
-    <button
-      type="button"
-      class="btn"
-      [ngClass]="isDark() ? 'btn-dark' : 'btn-secondary'"
-      routerLink="/products/new"
-    >
-      Novo
+    <span class="page-title"><i class="fa-solid fa-list-check"></i>Lista de Pacientes</span>
+    <button type="button" class="btn btn-secondary" routerLink="/paciente/novo">
+      Novo Paciente
       <i class="fa-regular fa-square-plus"></i>
     </button>
   </div>
+
+  <div class="row mt-3">
+    <div class="d-none d-md-flex align-items-baseline col-md-12 mb-3">
+      <span class="fst-italic text-secondary">Pesquisar por</span>
+    </div>
+    <div class="form-floating mb-3 col-md-4 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="fNome"
+        placeholder="Nome"
+        [(ngModel)]="nomeFilter"
+      />
+      <label for="fNome">Nome</label>
+    </div>
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="cpf"
+        mask="000.000.000-00"
+        id="documentoFilter"
+        type="text"
+        class="form-control"
+        [(ngModel)]="documentoFilter"
+        name="documentoFilter"
+      />
+      <label for="fDocumento">CPF</label>
+    </div>
+    <div class="form-floating mb-3 col-md-2 col-sm-12">
+      <select id="statusFilter" class="form-select" [(ngModel)]="statusFilter" name="statusFilter">
+        <option value="todos">Todos</option>
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
+      </select>
+      <label for="fTipoSanguineo">Status</label>
+    </div>
+
+    <div class="col-md-3 col-sm-12 d-md-flex align-items-baseline justify-content-end">
+      <button type="button" class="btn btn-lg btn-primary mt-1" (click)="search()">Buscar <i class="fa-solid fa-magnifying-glass-arrow-right ml-2"></i></button>
+    </div>
+  </div>
+
   <div class="mt-3">
     <mobilemed-table
       [restResp]="dataList()"

@@ -22,24 +22,24 @@ export class PacienteService {
 
   constructor(private http: HttpClient) { }
 
-  getPacientes(page: number, pageSize: number) {
-    this.http.get<IRestResponse<IPaciente>>(`${this.base}?page=${page}&pageSize=${pageSize}`)
-      .pipe(
-        map(rest => ({
-          ...rest,
+  getPacientes(page: number, pageSize: number, nome?: string, documento?: string, status?: boolean) {
+    let params = `?page=${page}&pageSize=${pageSize}`;
 
-          data: rest.data.map(paciente => ({
-            ...paciente,
+    if (nome?.trim()) {
+      params += `&nome=${encodeURIComponent(nome.trim())}`;
+    }
 
-            status: paciente.status
-              ? 'Ativo'
-              : 'Inativo',
-          })),
-        }))
-      )
-      .subscribe(rest => {
-        this._pacientes$.next(rest);
-      });
+    if (documento?.trim()) {
+      params += `&documento=${encodeURIComponent(documento.trim())}`;
+    }
+
+    if (status !== undefined) {
+      params += `&status=${status}`;
+    }
+
+    this.http.get<IRestResponse<IPaciente>>(`${this.base}${params}`).subscribe(rest => {
+      this._pacientes$.next(rest);
+    });
   }
   getPacienteporId(id: string): Observable<IPaciente> {
     return this.http.get<IPaciente>(`${this.base}/${id}`);
@@ -54,7 +54,7 @@ export class PacienteService {
   }
 
   trocaStatusPaciente(id: string, status: boolean) {
-    return this.http.patch(`${this.base}/${id}/status`, { "status": status });
+    return this.http.patch(`${this.base}/${id}`, { "status": status });
   }
 
 

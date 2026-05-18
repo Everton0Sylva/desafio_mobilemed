@@ -1,19 +1,19 @@
 <div class="d-flex flex-column">
   <div class="page-title">
-    <i class="fa-brands" [ngClass]="id ? 'fa-empire' : 'fa-rebel'"></i
-    >{{ id ? 'Editar' : 'Novo' }} Produto
+    <i class="fa-brands" [ngClass]="id ? 'fa-empire' : 'fa-rebel'"></i>
+    {{ id ? 'Editar' : 'Novo' }} Paciente
   </div>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row mt-3">
     <div class="form-floating mb-3 col-md-9 col-sm-12">
       <input
         type="text"
         class="form-control"
-        id="fName"
-        placeholder="Nome do Produto"
-        formControlName="name"
+        id="fNome"
+        placeholder="Nome"
+        formControlName="nome"
       />
-
-      <label for="fName">Nome do Produto</label>
+      <label for="fNome">Nome</label>
       <div
         *ngIf="form.get('nome')?.touched && form.get('nome')?.hasError('required')"
         class="text-danger"
@@ -21,63 +21,215 @@
         O Nome é obrigatório.
       </div>
     </div>
+
     <div class="form-floating mb-3 col-md-3 col-sm-12">
       <input
         type="text"
         class="form-control"
-        id="fPrice"
-        placeholder="Preço"
-        formControlName="price"
-        mask="separator.2"
-        thousandSeparator="."
-        decimalMarker=","
-        [dropSpecialCharacters]="true"
-        prefix="$"
-        [allowNegativeNumbers]="false"
+        id="fDocumento"
+        placeholder="Documento"
+        formControlName="documento"
+        mask="000.000.000-00"
       />
-      <label for="fPrice">Preço</label>
-      @if (
-        form.get('preco')?.invalid &&
-        form.get('preco')?.touched &&
-        form.get('preco')?.hasError('required')
-      ) {
-        <div class="text-danger">O Preço é obrigatório</div>
-      }
+      <label for="fDocumento">CPF</label>
     </div>
 
-    <div class="form-floating mb-3 col-md-9 col-sm-12">
-      <textarea
+    <div class="form-floating mb-3 col-md-2 col-sm-12">
+      <input
+        type="date"
         class="form-control"
-        id="fDescription"
-        formControlName="description"
-        placeholder="Descrição"
-        rows="3"
-      ></textarea>
-      <label for="fDescription">Descrição</label>
+        id="fDataNascimento"
+        placeholder="Data de Nascimento"
+        formControlName="dataNascimento"
+      />
+      <label for="fDataNascimento">Data de Nascimento</label>
+      <div
+        *ngIf="
+          form.get('dataNascimento')?.touched && form.get('dataNascimento')?.hasError('required')
+        "
+        class="text-danger"
+      >
+        * obrigatório.
+      </div>
     </div>
+
     <div class="form-floating mb-3 col-md-3 col-sm-12">
       <input
         type="text"
         class="form-control"
-        id="fQuantity"
-        placeholder="Quantidade"
-        formControlName="quantity"
-        mask="separator.0"
-        thousandSeparator="."
-        [allowNegativeNumbers]="false"
+        id="fTelefone"
+        placeholder="Telefone"
+        mask="(00) 00000-0000"
+        formControlName="telefone"
       />
-      <label for="fQuantity">Quantidade</label>
-      @if (
-        form.get('quantity')?.invalid &&
-        form.get('quantity')?.touched &&
-        form.get('quantity')?.hasError('required')
-      ) {
-        <div class="text-danger">A Quantidade é obrigatória.</div>
-      }
+      <label for="fTelefone">Telefone</label>
     </div>
-    <div class="d-flex flex-row justify-content-end gap-5">
+
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="fCelular"
+        placeholder="Celular"
+        mask="(00) 00000-0000"
+        formControlName="celular"
+      />
+      <label for="fCelular">Celular</label>
+      <div
+        *ngIf="form.get('celular')?.touched && form.get('celular')?.hasError('required')"
+        class="text-danger"
+      >
+        * obrigatório.
+      </div>
+    </div>
+
+    <div class="form-floating mb-3 col-md-2 col-sm-12">
+      <select class="form-select" id="fTipoSanguineo" formControlName="tipoSanguineo">
+        <option value="">Selecione</option>
+        <option *ngFor="let option of tipoSanguineoOptions" [value]="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+      <label for="fTipoSanguineo">Tipo Sanguíneo</label>
+    </div>
+
+    <div class="col-md-2 col-sm-12">
+      <div
+        class="d-flex align-items-baseline gap-2"
+        tooltip="Paciente pode ser contatado via WhatsApp"
+        [delay]="1500"
+      >
+        <input type="checkbox" id="fWhatsapp" name="whatsapp" [value]="false" disabled />
+        <label for="fWhatsapp">Whatsapp</label>
+      </div>
+
+      <span
+        class="status-text"
+        [ngClass]="paciente.status ? 'text-success' : 'text-danger'"
+        tooltip="Situação do cadastro do Paciente"
+        [delay]="1500"
+        >{{ paciente.status ? 'ATIVO' : 'INATIVO' }}</span
+      >
+    </div>
+
+    <div class="d-none d-md-flex align-items-baseline col-md-12 mb-3">
+      <span class="fs-5 fw-bold text-secondary">Endereço</span>
+    </div>
+
+    <div class="col-md-3 col-sm-12 mb-3">
+      <div class="input-group">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="fCep"
+            placeholder="CEP"
+            mask="00000-000"
+            formControlName="cep"
+            (keydown.enter)="buscarCep(); $event.preventDefault()"
+          />
+          <label for="fCep" class="form-label">CEP</label>
+        </div>
+        <button class="btn btn-secondary" type="button" (click)="buscarCep()">
+          <i class="fa-solid fa-lg fa-magnifying-glass-location"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-floating mb-3 col-md-7 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="fLogradouro"
+        placeholder="Logradouro"
+        formControlName="logradouro"
+      />
+      <label for="fLogradouro">Logradouro</label>
+    </div>
+
+    <div class="form-floating mb-3 col-md-2 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="fNumero"
+        placeholder="Número"
+        formControlName="numero"
+      />
+      <label for="fNumero">Número</label>
+    </div>
+
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="fComplemento"
+        placeholder="Complemento"
+        formControlName="complemento"
+      />
+      <label for="fComplemento">Complemento</label>
+    </div>
+
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="fBairro"
+        placeholder="Bairro"
+        formControlName="bairro"
+      />
+      <label for="fBairro">Bairro</label>
+    </div>
+
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="fCidade"
+        placeholder="Cidade"
+        formControlName="cidade"
+      />
+      <label for="fCidade">Cidade</label>
+    </div>
+
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <select class="form-select" id="fUf" formControlName="uf">
+        <option value="">Selecione UF</option>
+        <option *ngFor="let option of ufOptions" [value]="option.sigla">
+          {{ option.nome }}
+        </option>
+      </select>
+      <label for="fUf">UF</label>
+    </div>
+
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <input
+        type="text"
+        class="form-control cursor-not-allowed"
+        id="fCreatedAt"
+        placeholder="Criado em"
+        name="createdAt"
+        disabled
+        [value]="paciente.createdAt | date: 'dd/MM/yyyy HH:mm:ss'"
+      />
+      <label for="fCreatedAt">Criado em</label>
+    </div>
+
+    <div class="form-floating mb-3 col-md-3 col-sm-12">
+      <input
+        type="text"
+        class="form-control cursor-not-allowed"
+        id="fUpdatedAt"
+        placeholder="Atualizado em"
+        name="updatedAt"
+        disabled
+        [value]="paciente.updatedAt | date: 'dd/MM/yyyy HH:mm:ss'"
+      />
+      <label for="fUpdatedAt">Atualizado em</label>
+    </div>
+
+    <div class="d-flex flex-row justify-content-end gap-3 mt-4 col-12">
       <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
-      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Salvar</button>
+      <button type="submit" class="btn btn-primary">Salvar</button>
     </div>
   </form>
 </div>

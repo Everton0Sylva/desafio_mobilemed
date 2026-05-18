@@ -2,22 +2,24 @@
   <table class="table table-striped">
     <thead class="table-light">
       <tr>
-        <th
-          *ngFor="let col of columns"
-          (click)="col.sortable ? toggleSort(col.key) : null"
-          style="cursor: pointer"
-        >
-          {{ col.header }}
-          <small *ngIf="col.sortable" class="text-muted ms-2">
-            <span *ngIf="sortState.column === col.key && sortState.direction === 'asc'">▲</span>
-            <span *ngIf="sortState.column === col.key && sortState.direction === 'desc'">▼</span>
-          </small>
-        </th>
         <th style="width: 100px"></th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+        <th style="width: 110px"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let row of pageItems">
+        <td>
+          <span
+            class="action-btn badge rounded-pill bg-info-subtle text-info-emphasis"
+            (click)="emitAction('edit', row)"
+          >
+            <i class="fa-solid fa-file-pen"></i>
+            Editar
+          </span>
+        </td>
         <td *ngFor="let col of columns">
           @if (col.type === 'doc') {
             {{ row[col.key] | mask: '000.000.000-00' }}
@@ -25,19 +27,22 @@
             {{ row[col.key] | date: 'dd/MM/yyyy' }}
           } @else if (col.type === 'fone') {
             {{ row[col.key] | mask: '(00) 00000-0000' }}
-            } @else if (col.type === 'cidade') {
-              {{ row['cidade'] }} / {{ row['uf'] }}
+          } @else if (col.type === 'cidade') {
+            {{ row['cidade'] }} / {{ row['uf'] }}
+          } @else if (col.type === 'status') {
+            {{ row['status'] ? 'ATIVO' : 'INATIVO' }}
           } @else {
             {{ row[col.key] }}
           }
         </td>
 
         <td>
-          <span class="action-btn text-success-emphasis" (click)="emitAction('edit', row)">
-            <i class="fa-solid fa-square-pen"></i>
-          </span>
-          <span class="action-btn text-danger" (click)="emitAction('delete', row)">
-            <i class="fa-solid fa-circle-xmark"></i>
+          <span
+            class="badge rounded-pill text-bg-danger action-btn"
+            (click)="emitAction('status', row)"
+          >
+            Desativar
+            <i class="fa-solid fa-xmark"></i>
           </span>
         </td>
       </tr>
@@ -51,8 +56,8 @@
 
   <pagination
     [totalItems]="total"
-    [(ngModel)]="restResp.pageNumber"
-    [itemsPerPage]="restResp.pageSize"
+    [(ngModel)]="currentPage"
+    [itemsPerPage]="currentPageSize"
     (pageChanged)="pageChanged($event)"
     previousText="&lsaquo;"
     nextText="&rsaquo;"

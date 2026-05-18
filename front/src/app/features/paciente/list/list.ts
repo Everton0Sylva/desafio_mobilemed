@@ -5,10 +5,12 @@ import { IPaciente } from '../../../core/interface/ipaciente';
 import { Table } from '../../../core/components/table/table';
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { IRestResponse } from '../../../core/interface/irestresponse';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { PacienteService } from '../../../core/services/paciente.service';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'mobilemed-list',
@@ -16,6 +18,8 @@ import { PacienteService } from '../../../core/services/paciente.service';
     Table,
     RouterLink,
     CommonModule,
+    FormsModule,
+    NgxMaskDirective,
   ],
   templateUrl: './list.html',
   styleUrl: './list.scss',
@@ -28,18 +32,21 @@ export class List implements OnInit {
     totalCount: 0,
     totalPages: 1
   });
-  isDark = signal(false);
   private destroy$ = new Subject<void>();
 
   columns: ITableColumn<IPaciente>[] = [
-    { key: 'nome', header: 'Nome',  sortable: true },
-    { key: 'documento', header: 'Documento', type: 'doc', sortable: true },
-    { key: 'dataNascimento', header: 'Data Nascimento', type: 'date', sortable: false },
-    { key: 'celular', header: 'Celular', type: 'fone', sortable: false },
-    { key: 'status', header: 'Status',  sortable: false },
-    { key: 'cidade', header: 'Cidade', type: 'cidade', sortable: false },
-    { key: 'updatedAt', header: 'Atualizado em', type: 'date', sortable: false },
+    { key: 'nome', header: 'Nome' },
+    { key: 'documento', header: 'Documento', type: 'doc' },
+    { key: 'dataNascimento', header: 'Data Nascimento', type: 'date' },
+    { key: 'celular', header: 'Celular', type: 'fone' },
+    { key: 'status', header: 'Status', type: 'status' },
+    { key: 'cidade', header: 'Cidade', type: 'cidade' },
+    { key: 'updatedAt', header: 'Atualizado em', type: 'date' },
   ];
+
+  nomeFilter = '';
+  documentoFilter = '';
+  statusFilter: 'todos' | 'ativo' | 'inativo' = 'todos';
 
   private pacienteService = inject(PacienteService);
   private router = inject(Router);
@@ -57,31 +64,46 @@ export class List implements OnInit {
     });
   }
 
+  search() {
+    this.getProductsList(1);
+  }
+
   action(type: string, row: any) {
     let id = row?.id;
-    if (type === 'delete') {
+    if (type === 'status') {
       let that = this;
-      this.notificationService.confirm("Exclusão", "Deseja realmente deletar este produto?").then(confirmed => {
+      this.notificationService.confirm("Desativar", "Deseja realmente desativar este paciente?").then(confirmed => {
         if (confirmed) {
-          this.pacienteService.trocaStatusPaciente(id, false)
+          this.pacienteService.trocaStatusPaciente(id, !row.status)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
               next: () => {
-                that.toastr.success('Produto Deletado com sucesso!', 'Sucesso!');
+                status
+                that.toastr.success('Paciente Desativado com sucesso!', 'Sucesso!');
                 that.getProductsList(1);
               }, error: (err: any) => {
-                that.toastr.error('Erro ao deletar Produto!', 'Falha!');
+                that.toastr.error('Erro ao desativar Paciente!', 'Falha!');
                 console.log(err);
               }
             })
         }
       })
     } else if (type === 'edit') {
-      if (id) this.router.navigate(['./edit', id], { relativeTo: this.route });
+      if (id) this.router.navigate(['./editar', id], { relativeTo: this.route });
     }
   }
   getProductsList(page: number) {
-    this.pacienteService.getPacientes(page, 10);
+    const status = this.statusFilter === 'todos'
+      ? undefined
+      : this.statusFilter === 'ativo';
+
+    this.pacienteService.getPacientes(
+      page,
+      10,
+      this.nomeFilter,
+      this.documentoFilter,
+      status
+    );
   }
 
   ngOnDestroy(): void {
