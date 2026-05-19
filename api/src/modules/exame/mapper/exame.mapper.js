@@ -1,4 +1,6 @@
 import crypto from "crypto";
+import { PacienteMapper } from "../../paciente/mapper/paciente.mapper.js";
+import { ProcedimentoMapper } from "../../procedimento/mapper/procedimento.mapper.js";
 
 export class ExameMapper {
   static toPersistence(data) {
@@ -18,6 +20,9 @@ export class ExameMapper {
       ...(data.idProcedimento && {
         idProcedimento: data.idProcedimento,
       }),
+      ...(data.idempotencyKey && {
+        idempotencyKey: data.idempotencyKey,
+      }),
       ...(data.status && {
         status: data.status,
       }),
@@ -27,8 +32,8 @@ export class ExameMapper {
   static toResponse(data) {
     return {
       id: data.id,
-      idPaciente: data.idPaciente,
-      idProcedimento: data.idProcedimento,
+      paciente: PacienteMapper.toResponse(data.paciente),
+      procedimento: ProcedimentoMapper.toResponse(data.procedimento),
       idempotencyKey: data.idempotencyKey,
       status: data.status,
       createdAt: data.createdAt,

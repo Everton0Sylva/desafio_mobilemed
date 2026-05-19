@@ -56,35 +56,17 @@ export class ProcedimentoMapper {
     };
   }
 
-  static toResponse(
-    data,
-    especialidade
-  ) {
-
+  static toResponse(data) {
+    if (!data) return null;
     return {
-
-      id:
-        data.id,
-
-      sigla:
-        data.sigla,
-
-      nome:
-        data.nome,
-
-      codTuss:
-        data.codTuss,
-
-      status:
-        data.status,
-
-      especialidade,
-
-      createdAt:
-        data.createdAt,
-
-      updatedAt:
-        data.updatedAt
+      id: data.id,
+      sigla: data.sigla,
+      nome: data.nome,
+      cboEspecialidade: data.cboEspecialidade,
+      codTuss: data.codTuss,
+      status: data.status,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt
     };
   }
 }

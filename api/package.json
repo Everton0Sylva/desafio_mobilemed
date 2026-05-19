@@ -10,9 +10,10 @@
     "coverage": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
     "prisma:build": "prisma-import ./prisma/schema.prisma > ./prisma/schema-build.prisma",
     "prisma:generate": "npm run prisma:build && prisma generate --schema ./prisma/schema-build.prisma",
-    "prisma:migrate": "npm run prisma:build && prisma migrate dev --schema ./prisma/schema-build.prisma",
-    "seed:procedimentos": "ts-node prisma/seed/procedimentos.ts",
-    "seed:pacientes": "ts-node prisma/seed/pacientes.ts"
+    "prisma:migrate": "npm run prisma:build && prisma migrate dev --schema ./prisma/schema-build.prisma"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.3.4",

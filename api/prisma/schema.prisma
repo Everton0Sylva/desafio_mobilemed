@@ -28,8 +28,7 @@ model Paciente {
   uf            String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-
-  exames Exame[]
+  exames        Exame[]
 }
 
 enum TipoSanguineo {
@@ -69,11 +68,11 @@ model Procedimento {
 model Exame {
   id String @id @default(cuid())
   idPaciente String
+  paciente   Paciente @relation(fields: [idPaciente], references: [id])
   idProcedimento String
+  procedimento Procedimento @relation(fields: [idProcedimento], references: [id])
   idempotencyKey String @unique
   status SituacaoExame @default(SOLICITADO)
-  paciente Paciente @relation(fields: [idPaciente], references: [id])
-  procedimento Procedimento @relation(fields: [idProcedimento], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

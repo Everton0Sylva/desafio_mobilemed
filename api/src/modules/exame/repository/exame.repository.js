@@ -12,7 +12,15 @@ export class ExameRepository {
       return { exame: exameExistente, created: false };
     }
 
-    const created = await prisma.exame.create({ data });
+    const { idPaciente, idProcedimento, ...rest } = data;
+
+    const created = await prisma.exame.create({
+      data: {
+        ...rest,
+        paciente: { connect: { id: idPaciente } },
+        procedimento: { connect: { id: idProcedimento } },
+      },
+    });
 
     return { exame: created, created: true };
   }
@@ -22,21 +30,19 @@ export class ExameRepository {
       where: {
         id,
       },
+      include: {
+        paciente: true,
+        procedimento: true,
+      },
     });
   }
 
   async listar({ page, pageSize, idPaciente, idProcedimento, status }) {
     const skip = (page - 1) * pageSize;
-
     const where = {};
 
-    if (idPaciente) {
-      where.idPaciente = idPaciente;
-    }
-
-    if (idProcedimento) {
-      where.idProcedimento = idProcedimento;
-    }
+    if (idPaciente) where.idPaciente = idPaciente;
+    if (idProcedimento) where.idProcedimento = idProcedimento;
 
     if (status) {
       where.status = status;
@@ -48,6 +54,10 @@ export class ExameRepository {
       take: pageSize,
       orderBy: {
         createdAt: "desc",
+      },
+      include: {
+        paciente: true,
+        procedimento: true,
       },
     });
 
@@ -70,6 +80,10 @@ export class ExameRepository {
         id,
       },
       data,
+      include: {
+        paciente: true,
+        procedimento: true,
+      },
     });
   }
 
@@ -80,6 +94,10 @@ export class ExameRepository {
       },
       data: {
         status,
+      },
+      include: {
+        paciente: true,
+        procedimento: true,
       },
     });
   }
