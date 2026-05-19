@@ -4,80 +4,102 @@
     <button class="btn btn-primary" [routerLink]="['novo']">Novo Exame</button>
   </div>
 
-  <form [formGroup]="filterForm" (ngSubmit)="aplicarFiltros()">
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="pacienteFilter" class="form-label">Paciente</label>
-        <select id="pacienteFilter" formControlName="idPaciente" class="form-select">
-          <option [ngValue]="null">Todos os Pacientes</option>
-          <option *ngFor="let paciente of pacientes" [ngValue]="paciente.id">{{ paciente.nome }}</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label for="statusFilter" class="form-label">Status</label>
-        <select id="statusFilter" formControlName="status" class="form-select">
-          <option [ngValue]="null">Todos os Status</option>
-          <option *ngFor="let statusOpt of situacaoExameOptions" [ngValue]="statusOpt.value">{{ statusOpt.label }}</option>
-        </select>
-      </div>
-      <div class="col-md-4 d-flex align-items-end">
-        <button type="submit" class="btn btn-info me-2">Filtrar</button>
-        <button type="button" class="btn btn-secondary" (click)="limparFiltros()">Limpar</button>
-      </div>
+  <div class="d-flex flex-row gap-2">
+    <div class="col-md-4">
+      <label for="pacienteFilter" class="form-label">Pesquisar por Paciente</label>
+      <input
+        class="form-control"
+        id="pacienteFilter"
+        type="text"
+        [(ngModel)]="searchPaciente"
+        placeholder="Digite o Nome ou CPF do Paciente"
+        typeaheadOptionField="nome"
+        [typeahead]="pacientesList$"
+        [typeaheadAsync]="true"
+        [typeaheadMinLength]="3"
+        (typeaheadOnSelect)="onSelectPaciente($event)"
+        [typeaheadWaitMs]="500"
+      />
     </div>
-  </form>
 
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Paciente</th>
-          <th>Procedimento</th>
-          <th>Status</th>
-          <th>Criado Em</th>
-          <th>Atualizado Em</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngIf="(exames$ | async) as examesResponse">
-          <tr *ngFor="let exame of examesResponse.data">
-            <td>{{ exame.id | slice:0:8 }}...</td>
-            <td>{{ exame.paciente?.nome }}</td>
-            <td>{{ exame.procedimento?.nome }}</td>
-            <td>
-              <span class="badge" [ngClass]="getStatusClass(exame.status)">
-                {{ exame.status }}
-              </span>
-            </td>
-            <td>{{ exame.createdAt | date:'short' }}</td>
-            <td>{{ exame.updatedAt | date:'short' }}</td>
-            <td>
-              <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="[exame.id]">Editar</button>
-              <!-- Adicionar botão de exclusão/alteração de status se necessário -->
-            </td>
-          </tr>
-          <tr *ngIf="examesResponse.data.length === 0">
-            <td colspan="7" class="text-center">Nenhum exame encontrado.</td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+    <div class="col-md-4">
+      <label for="procedimentoFilter" class="form-label">Selecionar Procedimento</label>
+      <input
+        [(ngModel)]="searchProcedimento"
+        placeholder="Pesquisar por Procedimento"
+        typeaheadOptionField="nome"
+        [typeahead]="procedimentosList$"
+        [typeaheadAsync]="true"
+        [typeaheadMinLength]="3"
+        [typeaheadWaitMs]="500"
+        (typeaheadOnSelect)="onSelectProcedimento($event)"
+        id="procedimentoFilter"
+        class="form-control"
+      />
+    </div>
+
+    <div class="col-md-2" [formGroup]="form">
+      <label for="statusFilter" class="form-label">Status</label>
+      <select id="statusFilter" formControlName="status" class="form-select">
+        <option>Todos os Status</option>
+        <option *ngFor="let statusOpt of situacaoExameOptions" [ngValue]="statusOpt.value">
+          {{ statusOpt.label }}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button type="button" (click)="carregarExames(1)" class="btn btn-info me-2">Filtrar</button>
+      <button type="button" class="btn btn-secondary" (click)="limparFiltros()">Limpar</button>
+    </div>
   </div>
 
-  <nav *ngIf="(exames$ | async) as examesResponse" aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="examesResponse.pageNumber === 1">
-        <a class="page-link" (click)="mudarPagina(examesResponse.pageNumber - 1)">Anterior</a>
-      </li>
-      <li class="page-item" *ngFor="let page of [].constructor(examesResponse.totalPages); let i = index"
-        [class.active]="examesResponse.pageNumber === i + 1">
-        <a class="page-link" (click)="mudarPagina(i + 1)">{{ i + 1 }}</a>
-      </li>
-      <li class="page-item" [class.disabled]="examesResponse.pageNumber === examesResponse.totalPages">
-        <a class="page-link" (click)="mudarPagina(examesResponse.pageNumber + 1)">Próxima</a>
-      </li>
-    </ul>
-  </nav>
+  <div class="mt-3">
+    <div class="d-flex flex-column g-0">
+      <table class="table table-striped">
+        <thead class="table-light">
+          <tr>
+            <th style="width: 100px"></th>
+            <th *ngFor="let col of columns">
+              {{ col.header }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of dataList().data">
+            <td>
+              <span class="action-btn badge rounded-pill bg-info-subtle text-info-emphasis">
+                <i class="fa-solid fa-file-pen"></i>
+                Editar
+              </span>
+            </td>
+            <td>{{ row?.paciente?.nome }}</td>
+            <td>{{ row?.paciente!.documento | mask: '000.000.000-00' }}</td>
+            <td>{{ row?.paciente!.cidade }} / {{ row?.paciente!.uf }}</td>
+            <td>{{ row?.procedimento!.sigla }}</td>
+            <td>
+              <span class="status-text" [ngClass]="getStatusClass(row.status)">{{
+                row.status
+              }}</span>
+            </td>
+            <td>{{ row?.procedimento!.updatedAt | date: 'dd/MM/yyyy' }}</td>
+          </tr>
+          <tr *ngIf="!dataList().data || dataList().data.length === 0">
+            <td [attr.colspan]="columns.length + 1" class="text-center no-records">
+              Nenhum registro encontrado!
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <pagination
+        [totalItems]="dataList().totalCount"
+        [(ngModel)]="currentPage"
+        [itemsPerPage]="currentPageSize"
+        (pageChanged)="carregarExames($event.page)"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+      >
+      </pagination>
+    </div>
+  </div>
 </div>

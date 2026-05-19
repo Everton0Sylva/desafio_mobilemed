@@ -3,79 +3,45 @@
     <h2>{{ id ? 'Edição' : 'Cadastro' }} de Exame</h2>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="col-md-6">
-        <label for="pacienteFilter" class="form-label"> Selecionar Paciente</label>
-        <input
-          class="form-control"
-          id="pacienteFilter"
-          type="text"
-          [(ngModel)]="search"
-          [ngModelOptions]="{ standalone: true }"
-          placeholder="Paciente"
-          typeaheadOptionField="nome"
-          [typeahead]="pacientesList$"
-          [typeaheadAsync]="true"
-          [typeaheadMinLength]="3"
-
-          (typeaheadOnSelect)="typeaheadOnSelect($event)"
-          [typeaheadWaitMs]="500"
-        />
-      </div>
-
-      <!-- Procedimento -->
-      <div class="col-md-6 mb-3">
-        <label for="idProcedimento" class="form-label"
-          >Procedimento <span class="text-danger">*</span></label
-        >
-        <select
-          id="idProcedimento"
-          formControlName="idProcedimento"
-          class="form-select"
-          [class.is-invalid]="
-            form.get('idProcedimento')?.invalid && form.get('idProcedimento')?.touched
-          "
-        >
-          <option [ngValue]="null" disabled>Selecione um procedimento</option>
-          <option *ngFor="let procedimento of procedimentos" [ngValue]="procedimento.id">
-            {{ procedimento.nome }}
-          </option>
-        </select>
-        <div
-          *ngIf="form.get('idProcedimento')?.invalid && form.get('idProcedimento')?.touched"
-          class="invalid-feedback"
-        >
-          Procedimento é obrigatório.
-        </div>
-      </div>
-
-      <!-- Status -->
-      <div class="col-md-6 mb-3">
-        <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-        <select
-          id="status"
-          formControlName="status"
-          class="form-select"
-          [class.is-invalid]="form.get('status')?.invalid && form.get('status')?.touched"
-        >
-          <option [ngValue]="null" disabled>Selecione um status</option>
-          <option *ngFor="let statusOpt of situacaoExameOptions" [ngValue]="statusOpt.value">
-            {{ statusOpt.label }}
-          </option>
-        </select>
-        <div
-          *ngIf="form.get('status')?.invalid && form.get('status')?.touched"
-          class="invalid-feedback"
-        >
-          Status é obrigatório.
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="pacienteFilter" class="form-label">Selecionar Paciente</label>
+      <input
+        class="form-control"
+        id="pacienteFilter"
+        type="text"
+        [(ngModel)]="searchPaciente"
+        placeholder="Digite o Nome ou CPF do Paciente"
+        typeaheadOptionField="nome"
+        [typeahead]="pacientesList$"
+        [typeaheadAsync]="true"
+        [typeaheadMinLength]="3"
+        (typeaheadOnSelect)="onSelectPaciente($event)"
+        [typeaheadWaitMs]="500"
+      />
     </div>
 
-    <div class="d-flex justify-content-end mt-4">
-      <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancelar</button>
-      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Salvar</button>
+    <div class="col-md-6">
+      <label for="procedimentoFilter" class="form-label"
+        >Selecionar Procedimento <span class="text-danger">*</span></label
+      >
+      <input
+        [(ngModel)]="searchProcedimento"
+        placeholder="Digite o Nome, CBO ou Tuss do Procedimento"
+        typeaheadOptionField="nome"
+        [typeahead]="procedimentosList$"
+        [typeaheadAsync]="true"
+        [typeaheadMinLength]="3"
+        [typeaheadWaitMs]="500"
+        (typeaheadOnSelect)="onSelectProcedimento($event)"
+        id="procedimentoFilter"
+        class="form-control"
+      />
     </div>
-  </form>
+  </div>
+
+  <div class="d-flex justify-content-end mt-4">
+    <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">Salvar</button>
+  </div>
 </div>
