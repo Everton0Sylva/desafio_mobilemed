@@ -7,10 +7,14 @@ export class ListarExamesController {
       const input = {
         page: req.query.page,
         pageSize: req.query.pageSize,
-        pacienteId: req.query.pacienteId,
+        idPaciente: req.query.idPaciente,
         idProcedimento: req.query.idProcedimento,
-        status: req.query.status,
       };
+
+      
+    if (req.query.status !== undefined) {
+      input.status = req.query.status;
+    }
 
       const dto = listarExamesDto.parse(input);
 

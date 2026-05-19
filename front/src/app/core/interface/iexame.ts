@@ -4,12 +4,12 @@ import { IProcedimento } from './iprocedimento';
 
 export interface IExame {
   id: string;
-  pacienteId: string;
+  idPaciente: string;
   idProcedimento: string;
   idempotencyKey: string;
   status: SituacaoExame;
-  paciente?: IPaciente;
-  procedimento?: IProcedimento;
+  paciente: IPaciente;
+  procedimento: IProcedimento;
   createdAt: Date;
   updatedAt: Date;
 }

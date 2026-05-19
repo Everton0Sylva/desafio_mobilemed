@@ -17,7 +17,7 @@ describe('Exames API - idempotência e fluxos', () => {
       }));
 
     const payload = {
-      pacienteId: '00000000-0000-4000-8000-000000000001',
+      idPaciente: '00000000-0000-4000-8000-000000000001',
       idProcedimento: '00000000-0000-4000-8000-000000000002',
       idempotencyKey: 'key-1',
     };
@@ -43,7 +43,7 @@ describe('Exames API - idempotência e fluxos', () => {
       });
 
     const payload = {
-      pacienteId: '00000000-0000-4000-8000-000000000003',
+      idPaciente: '00000000-0000-4000-8000-000000000003',
       idProcedimento: '00000000-0000-4000-8000-000000000004',
       idempotencyKey: 'idem-1',
     };
@@ -91,7 +91,7 @@ describe('Exames API - idempotência e fluxos', () => {
       });
 
     const payload = {
-      pacienteId: '00000000-0000-4000-8000-000000000005',
+      idPaciente: '00000000-0000-4000-8000-000000000005',
       idProcedimento: '00000000-0000-4000-8000-000000000006',
       idempotencyKey: 'idem-concurrent',
     };
@@ -112,7 +112,7 @@ describe('Exames API - idempotência e fluxos', () => {
   test('Criar exame com paciente inexistente - Erro 400 - paciente não encontrado', async () => {
     jest.spyOn(PacienteRepository.prototype, 'buscarPorId').mockResolvedValue(null);
 
-    const payload = { pacienteId: 'nope', idProcedimento: 'proc1', idempotencyKey: 'k2' };
+    const payload = { idPaciente: 'nope', idProcedimento: 'proc1', idempotencyKey: 'k2' };
 
     const res = await request(app).post('/exames').send(payload);
 
@@ -121,8 +121,21 @@ describe('Exames API - idempotência e fluxos', () => {
   });
 
   test('Listar exames com paginação (10 por página) - Retorno paginado corretamente', async () => {
+    const mockPaciente = { id: 'p1', nome: 'Paciente Teste', documento: '12345678901' };
+    const mockProcedimento = { id: 'proc1', nome: 'Procedimento Teste', sigla: 'PT' };
+
     jest.spyOn(ExameRepository.prototype, 'listar').mockResolvedValue({
-      data: Array.from({ length: 10 }, (_, i) => ({ id: `e${i + 1}` })),
+      data: Array.from({ length: 10 }, (_, i) => ({
+        id: `e${i + 1}`,
+        idPaciente: mockPaciente.id,
+        paciente: mockPaciente,
+        idProcedimento: mockProcedimento.id,
+        procedimento: mockProcedimento,
+        idempotencyKey: `key-${i + 1}`,
+        status: 'SOLICITADO',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      })),
       total: 25,
       page: 1,
       pageSize: 10,
@@ -130,10 +143,13 @@ describe('Exames API - idempotência e fluxos', () => {
     });
 
     const res = await request(app).get('/exames').query({ page: 1, pageSize: 10 });
-
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('data');
     expect(res.body.pageSize).toBe(10);
     expect(res.body.total).toBe(25);
+    expect(res.body.data[0]).toHaveProperty('paciente');
+    expect(res.body.data[0].paciente.id).toBe(mockPaciente.id);
+    expect(res.body.data[0]).toHaveProperty('procedimento');
+    expect(res.body.data[0].procedimento.id).toBe(mockProcedimento.id);
   });
 });

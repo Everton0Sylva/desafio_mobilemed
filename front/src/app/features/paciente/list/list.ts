@@ -57,7 +57,7 @@ export class List implements OnInit {
   private notificationService: NotificationService = inject(NotificationService);
 
   ngOnInit() {
-    this.getProductsList(1);
+    this.getPacienteList(1);
 
     this.pacienteService.pacientes$.subscribe(list => {
       this.dataList.set(list as unknown as IRestResponse<IPaciente>);
@@ -65,11 +65,11 @@ export class List implements OnInit {
   }
 
   search() {
-    this.getProductsList(1);
+    this.getPacienteList(1);
   }
 
   action(type: string, row: any) {
-    let id = row?.id;
+    let id = row?.getPacienteListid;
     if (type === 'status') {
       let that = this;
       this.notificationService.confirm("Desativar", "Deseja realmente desativar este paciente?").then(confirmed => {
@@ -80,7 +80,7 @@ export class List implements OnInit {
               next: () => {
                 status
                 that.toastr.success('Paciente Desativado com sucesso!', 'Sucesso!');
-                that.getProductsList(1);
+                that.getPacienteList(1);
               }, error: (err: any) => {
                 that.toastr.error('Erro ao desativar Paciente!', 'Falha!');
                 console.log(err);
@@ -92,17 +92,22 @@ export class List implements OnInit {
       if (id) this.router.navigate(['./editar', id], { relativeTo: this.route });
     }
   }
-  getProductsList(page: number) {
-    const status = this.statusFilter === 'todos'
-      ? undefined
-      : this.statusFilter === 'ativo';
+  getPacienteList(page: number) {
 
+    let reqFilter = '';
+    if (this.nomeFilter.trim()) {
+      reqFilter += `&nome=${encodeURIComponent(this.nomeFilter)}`
+    }
+    if (this.documentoFilter.trim()) {
+      reqFilter += `&documento=${encodeURIComponent(this.documentoFilter)}`
+    }
+    if (this.statusFilter !== 'todos') {
+      reqFilter += `&status=${this.statusFilter === 'ativo'}`
+    }
     this.pacienteService.getPacientes(
       page,
       10,
-      this.nomeFilter,
-      this.documentoFilter,
-      status
+      reqFilter
     );
   }
 

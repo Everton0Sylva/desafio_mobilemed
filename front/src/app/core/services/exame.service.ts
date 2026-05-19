@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, debounceTime, Observable, takeUntil, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { IRestResponse } from '../interface/irestresponse';
@@ -23,21 +23,18 @@ export class ExameService {
 
   constructor(private http: HttpClient) { }
 
-  getExames(page: number, pageSize: number, pacienteId?: string, status?: string) {
+  getExames(page: number, pageSize: number, filter?: string) {
     let params = `?page=${page}&pageSize=${pageSize}`;
-
-    if (pacienteId) {
-      params += `&pacienteId=${pacienteId}`;
+    if (filter?.trim()) {
+      params += filter;
     }
-
-    if (status) {
-      params += `&status=${status}`;
-    }
-
-    this.http.get<IRestResponse<IExame>>(`${this.base}${params}`).subscribe(rest => {
-      this._exames$.next(rest);
-    });
+    return this.http.get<IRestResponse<IExame>>(`${this.base}${params}`).pipe(
+      tap(rest => {
+        this._exames$.next(rest);
+      })
+    )
   }
+
 
   getExamePorId(id: string): Observable<IExame> {
     return this.http.get<IExame>(`${this.base}/${id}`);
@@ -49,9 +46,5 @@ export class ExameService {
 
   updateExame(id: string, data: Partial<IExame>) {
     return this.http.put<IExame>(`${this.base}/${id}`, data);
-  }
-
-  getProcedimentos(): Observable<IProcedimento[]> {
-    return this.http.get<IProcedimento[]>(`${environment.apiUrl}/procedimentos`);
   }
 }

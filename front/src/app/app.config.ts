@@ -8,12 +8,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { BrowserModule } from '@angular/platform-browser';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(BrowserModule, HttpClientModule, ModalModule.forRoot()),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(routes), 
+    provideAnimationsAsync(),
+    provideAnimations(),
     provideEnvironmentNgxMask(),
     provideNgxMask(),
     provideToastr({

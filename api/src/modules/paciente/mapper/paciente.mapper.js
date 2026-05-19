@@ -38,6 +38,7 @@ export class PacienteMapper {
   }
 
   static toResponse(data) {
+    if (!data) return null;
     return {
       id: data.id,
 

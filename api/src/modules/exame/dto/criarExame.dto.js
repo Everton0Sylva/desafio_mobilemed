@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const criarExameDto = z.object({
-  pacienteId: z.string().uuid(),
-  idProcedimento: z.string().uuid(),
+  idPaciente: z.string(),
+  idProcedimento: z.string(),
   idempotencyKey: z.string().optional(),
   status: z.enum([
     'SOLICITADO',
