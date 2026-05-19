@@ -17,7 +17,7 @@ describe('Exames API - idempotência e fluxos', () => {
       }));
 
     const payload = {
-      pacienteId: '00000000-0000-4000-8000-000000000001',
+      idPaciente: '00000000-0000-4000-8000-000000000001',
       idProcedimento: '00000000-0000-4000-8000-000000000002',
       idempotencyKey: 'key-1',
     };
@@ -43,7 +43,7 @@ describe('Exames API - idempotência e fluxos', () => {
       });
 
     const payload = {
-      pacienteId: '00000000-0000-4000-8000-000000000003',
+      idPaciente: '00000000-0000-4000-8000-000000000003',
       idProcedimento: '00000000-0000-4000-8000-000000000004',
       idempotencyKey: 'idem-1',
     };
@@ -91,7 +91,7 @@ describe('Exames API - idempotência e fluxos', () => {
       });
 
     const payload = {
-      pacienteId: '00000000-0000-4000-8000-000000000005',
+      idPaciente: '00000000-0000-4000-8000-000000000005',
       idProcedimento: '00000000-0000-4000-8000-000000000006',
       idempotencyKey: 'idem-concurrent',
     };
@@ -112,7 +112,7 @@ describe('Exames API - idempotência e fluxos', () => {
   test('Criar exame com paciente inexistente - Erro 400 - paciente não encontrado', async () => {
     jest.spyOn(PacienteRepository.prototype, 'buscarPorId').mockResolvedValue(null);
 
-    const payload = { pacienteId: 'nope', idProcedimento: 'proc1', idempotencyKey: 'k2' };
+    const payload = { idPaciente: 'nope', idProcedimento: 'proc1', idempotencyKey: 'k2' };
 
     const res = await request(app).post('/exames').send(payload);
 

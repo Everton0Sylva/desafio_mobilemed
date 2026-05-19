@@ -25,13 +25,13 @@ export class ExameRepository {
     });
   }
 
-  async listar({ page, pageSize, pacienteId, idProcedimento, status }) {
+  async listar({ page, pageSize, idPaciente, idProcedimento, status }) {
     const skip = (page - 1) * pageSize;
 
     const where = {};
 
-    if (pacienteId) {
-      where.pacienteId = pacienteId;
+    if (idPaciente) {
+      where.idPaciente = idPaciente;
     }
 
     if (idProcedimento) {

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const alterarExameDto = z.object({
-  pacienteId: z.string().uuid().optional(),
+  idPaciente: z.string().uuid().optional(),
   idProcedimento: z.string().uuid().optional(),
   status: z.enum([
     'SOLICITADO',

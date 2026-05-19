@@ -44,7 +44,7 @@ export function registerExamePaths(registry) {
 
   registry.registerPath({
     method: "get",
-    path: "/exames?pacienteId=x&procedimentoExameId=y&status=z",
+    path: "/exames?idPaciente=x&idProcedimento=y&status=z",
     tags: ["Exames"],
     summary: "Buscar exames",
     description: "Busca por paciente, procedimento ou status",

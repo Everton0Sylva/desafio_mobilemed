@@ -3,7 +3,7 @@ import crypto from "crypto";
 export class ExameMapper {
   static toPersistence(data) {
     return {
-      pacienteId: data.pacienteId,
+      idPaciente: data.idPaciente,
       idProcedimento: data.idProcedimento,
       idempotencyKey: data.idempotencyKey || crypto.randomUUID(),
       status: data.status ?? "SOLICITADO",
@@ -12,8 +12,8 @@ export class ExameMapper {
 
   static toUpdate(data) {
     return {
-      ...(data.pacienteId && {
-        pacienteId: data.pacienteId,
+      ...(data.idPaciente && {
+        idPaciente: data.idPaciente,
       }),
       ...(data.idProcedimento && {
         idProcedimento: data.idProcedimento,
@@ -27,7 +27,7 @@ export class ExameMapper {
   static toResponse(data) {
     return {
       id: data.id,
-      pacienteId: data.pacienteId,
+      idPaciente: data.idPaciente,
       idProcedimento: data.idProcedimento,
       idempotencyKey: data.idempotencyKey,
       status: data.status,

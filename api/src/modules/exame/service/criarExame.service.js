@@ -10,10 +10,8 @@ export class CriarExameService {
     const pacienteRepository = new PacienteRepository();
 
     const paciente =
-
       await pacienteRepository.buscarPorId(
-
-        data.pacienteId
+        data.idPaciente
       );
 
     if (!paciente) {

@@ -11,7 +11,7 @@ export const listarExamesDto = z.object({
         .min(1)
         .max(100)
         .default(10),
-  pacienteId: z.string().uuid().optional(),
+  idPaciente: z.string().uuid().optional(),
   idProcedimento: z.string().uuid().optional(),
   status: z.enum([
     'SOLICITADO',

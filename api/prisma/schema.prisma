@@ -68,12 +68,12 @@ model Procedimento {
 
 model Exame {
   id String @id @default(cuid())
-  pacienteId String
-  procedimentoExameId String
+  idPaciente String
+  idProcedimento String
   idempotencyKey String @unique
   status SituacaoExame @default(SOLICITADO)
-  paciente Paciente @relation(fields: [pacienteId], references: [id])
-  procedimento Procedimento @relation(fields: [procedimentoExameId], references: [id])
+  paciente Paciente @relation(fields: [idPaciente], references: [id])
+  procedimento Procedimento @relation(fields: [idProcedimento], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
