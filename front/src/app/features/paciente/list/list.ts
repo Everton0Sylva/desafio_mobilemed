@@ -93,16 +93,21 @@ export class List implements OnInit {
     }
   }
   getProductsList(page: number) {
-    const status = this.statusFilter === 'todos'
-      ? undefined
-      : this.statusFilter === 'ativo';
 
+    let reqFilter = '';
+    if (this.nomeFilter.trim()) {
+      reqFilter += `&nome=${encodeURIComponent(this.nomeFilter)}`
+    }
+    if (this.documentoFilter.trim()) {
+      reqFilter += `&documento=${encodeURIComponent(this.documentoFilter)}`
+    }
+    if (this.statusFilter !== 'todos') {
+      reqFilter += `&status=${this.statusFilter === 'ativo'}`
+    }
     this.pacienteService.getPacientes(
       page,
       10,
-      this.nomeFilter,
-      this.documentoFilter,
-      status
+      reqFilter
     );
   }
 

@@ -23,11 +23,11 @@ export class ExameService {
 
   constructor(private http: HttpClient) { }
 
-  getExames(page: number, pageSize: number, pacienteId?: string, status?: string) {
+  getExames(page: number, pageSize: number, idPaciente?: string, status?: string) {
     let params = `?page=${page}&pageSize=${pageSize}`;
 
-    if (pacienteId) {
-      params += `&pacienteId=${pacienteId}`;
+    if (idPaciente) {
+      params += `&idPaciente=${idPaciente}`;
     }
 
     if (status) {

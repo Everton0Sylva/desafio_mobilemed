@@ -5,7 +5,7 @@ import { Procedimento } from './procedimento';
 
 export class Exame implements IExame {
   id: string;
-  pacienteId: string;
+  idPaciente: string;
   idProcedimento: string;
   idempotencyKey: string;
   status: SituacaoExame;
@@ -16,8 +16,8 @@ export class Exame implements IExame {
 
   constructor(data: any = {}) {
     this.id = data.id ?? data.Id ?? '';
-    this.pacienteId = data.pacienteId ?? data.PacienteId ?? '';
-    this.idProcedimento = data.idProcedimento ?? data.IdProcedimento ?? data.procedimentoExameId ?? data.ProcedimentoExameId ?? '';
+    this.idPaciente = data.idPaciente ?? data.IdPaciente ?? '';
+    this.idProcedimento = data.idProcedimento ?? data.IdProcedimento ?? '';
     this.idempotencyKey = data.idempotencyKey ?? data.IdempotencyKey ?? '';
 
     // Mapeamento do Status com fallback para o default do Prisma (SOLICITADO)

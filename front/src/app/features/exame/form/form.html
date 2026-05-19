@@ -5,28 +5,47 @@
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
-      <!-- Paciente -->
-      <div class="col-md-6 mb-3">
-        <label for="pacienteId" class="form-label">Paciente <span class="text-danger">*</span></label>
-        <select id="pacienteId" formControlName="pacienteId" class="form-select"
-          [class.is-invalid]="form.get('pacienteId')?.invalid && form.get('pacienteId')?.touched">
-          <option [ngValue]="null" disabled>Selecione um paciente</option>
-          <option *ngFor="let paciente of pacientes" [ngValue]="paciente.id">{{ paciente.nome }}</option>
-        </select>
-        <div *ngIf="form.get('pacienteId')?.invalid && form.get('pacienteId')?.touched" class="invalid-feedback">
-          Paciente é obrigatório.
-        </div>
+      <div class="col-md-6">
+        <label for="pacienteFilter" class="form-label"> Selecionar Paciente</label>
+        <input
+          class="form-control"
+          id="pacienteFilter"
+          type="text"
+          [(ngModel)]="search"
+          [ngModelOptions]="{ standalone: true }"
+          placeholder="Paciente"
+          typeaheadOptionField="nome"
+          [typeahead]="pacientesList$"
+          [typeaheadAsync]="true"
+          [typeaheadMinLength]="3"
+
+          (typeaheadOnSelect)="typeaheadOnSelect($event)"
+          [typeaheadWaitMs]="500"
+        />
       </div>
 
       <!-- Procedimento -->
       <div class="col-md-6 mb-3">
-        <label for="idProcedimento" class="form-label">Procedimento <span class="text-danger">*</span></label>
-        <select id="idProcedimento" formControlName="idProcedimento" class="form-select"
-          [class.is-invalid]="form.get('idProcedimento')?.invalid && form.get('idProcedimento')?.touched">
+        <label for="idProcedimento" class="form-label"
+          >Procedimento <span class="text-danger">*</span></label
+        >
+        <select
+          id="idProcedimento"
+          formControlName="idProcedimento"
+          class="form-select"
+          [class.is-invalid]="
+            form.get('idProcedimento')?.invalid && form.get('idProcedimento')?.touched
+          "
+        >
           <option [ngValue]="null" disabled>Selecione um procedimento</option>
-          <option *ngFor="let procedimento of procedimentos" [ngValue]="procedimento.id">{{ procedimento.nome }}</option>
+          <option *ngFor="let procedimento of procedimentos" [ngValue]="procedimento.id">
+            {{ procedimento.nome }}
+          </option>
         </select>
-        <div *ngIf="form.get('idProcedimento')?.invalid && form.get('idProcedimento')?.touched" class="invalid-feedback">
+        <div
+          *ngIf="form.get('idProcedimento')?.invalid && form.get('idProcedimento')?.touched"
+          class="invalid-feedback"
+        >
           Procedimento é obrigatório.
         </div>
       </div>
@@ -34,12 +53,21 @@
       <!-- Status -->
       <div class="col-md-6 mb-3">
         <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-        <select id="status" formControlName="status" class="form-select"
-          [class.is-invalid]="form.get('status')?.invalid && form.get('status')?.touched">
+        <select
+          id="status"
+          formControlName="status"
+          class="form-select"
+          [class.is-invalid]="form.get('status')?.invalid && form.get('status')?.touched"
+        >
           <option [ngValue]="null" disabled>Selecione um status</option>
-          <option *ngFor="let statusOpt of situacaoExameOptions" [ngValue]="statusOpt.value">{{ statusOpt.label }}</option>
+          <option *ngFor="let statusOpt of situacaoExameOptions" [ngValue]="statusOpt.value">
+            {{ statusOpt.label }}
+          </option>
         </select>
-        <div *ngIf="form.get('status')?.invalid && form.get('status')?.touched" class="invalid-feedback">
+        <div
+          *ngIf="form.get('status')?.invalid && form.get('status')?.touched"
+          class="invalid-feedback"
+        >
           Status é obrigatório.
         </div>
       </div>

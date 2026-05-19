@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { IRestResponse } from '../interface/irestresponse';
@@ -22,24 +22,18 @@ export class PacienteService {
 
   constructor(private http: HttpClient) { }
 
-  getPacientes(page: number, pageSize: number, nome?: string, documento?: string, status?: boolean) {
+  getPacientes(page: number, pageSize: number, filter?: string) {
     let params = `?page=${page}&pageSize=${pageSize}`;
 
-    if (nome?.trim()) {
-      params += `&nome=${encodeURIComponent(nome.trim())}`;
+    if (filter?.trim()) {
+      params += filter;
     }
 
-    if (documento?.trim()) {
-      params += `&documento=${encodeURIComponent(documento.trim())}`;
-    }
-
-    if (status !== undefined) {
-      params += `&status=${status}`;
-    }
-
-    this.http.get<IRestResponse<IPaciente>>(`${this.base}${params}`).subscribe(rest => {
-      this._pacientes$.next(rest);
-    });
+    return this.http.get<IRestResponse<IPaciente>>(`${this.base}${params}`).pipe(
+      tap(rest => {
+        this._pacientes$.next(rest);
+      })
+    )
   }
   getPacienteporId(id: string): Observable<IPaciente> {
     return this.http.get<IPaciente>(`${this.base}/${id}`);

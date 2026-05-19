@@ -34,13 +34,13 @@ export class List implements OnInit, OnDestroy {
     ) {
         this.exames$ = this.exameService.exames$;
         this.filterForm = this.fb.group({
-            pacienteId: [null],
+            idPaciente: [null],
             status: [null]
         });
     }
 
     ngOnInit(): void {
-        this.carregarDadosIniciais();
+        // this.carregarDadosIniciais();
         this.carregarExames();
     }
 
@@ -52,8 +52,8 @@ export class List implements OnInit, OnDestroy {
     }
 
     carregarExames(): void {
-        const { pacienteId, status } = this.filterForm.value;
-        this.exameService.getExames(this.currentPage, this.pageSize, pacienteId, status);
+        const { idPaciente, status } = this.filterForm.value;
+        this.exameService.getExames(this.currentPage, this.pageSize, idPaciente, status);
     }
 
     aplicarFiltros(): void {
@@ -78,7 +78,7 @@ export class List implements OnInit, OnDestroy {
     }
 
     limparFiltros(): void {
-        this.filterForm.reset({ pacienteId: null, status: null });
+        this.filterForm.reset({ idPaciente: null, status: null });
         this.aplicarFiltros();
     }
 
